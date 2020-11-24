@@ -23,5 +23,15 @@ namespace API.Controllers
         {
             return await _context.Stocks.ToListAsync();
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public void SaveStock(Stock stockObj)
+        {
+            _context.Stocks.Add(stockObj);
+            _context.SaveChanges();
+
+            //return stockObj;
+        }
     }
 }

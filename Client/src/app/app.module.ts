@@ -7,18 +7,26 @@ import { AppComponent } from './app.component';
 import { StockEntryComponent } from './stock-entry/stock-entry.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StockPortfolioListComponent } from './stock-portfolio-list/stock-portfolio-list.component';
+import { HomeComponent } from './home/home.component';
+import { StockLandingComponent } from './stock-landing/stock-landing.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     StockEntryComponent,
-    NavMenuComponent
+    NavMenuComponent,
+    StockPortfolioListComponent,
+    HomeComponent,
+    StockLandingComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

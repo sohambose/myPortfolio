@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="row">
+        <div>
+            <ul class="list-group">
+                <li class="list-group" *ngFor="let stock of stocks">
+                    <span><input type="checkbox">&nbsp;{{ stock.companyName }} [{{ stock.stockSymbol }}]</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <button type="button" class="btn btn-dark" (click)="onAddNewStock()">Add Stock to Portfolio</button>
+        </div>
+    </div>
+</div>

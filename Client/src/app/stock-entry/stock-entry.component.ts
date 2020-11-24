@@ -1,5 +1,6 @@
 import { StockService } from './../_Services/Stock.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-stock-entry',
@@ -7,14 +8,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./stock-entry.component.css']
 })
 export class StockEntryComponent implements OnInit {
+  stock: any = {};
+  @ViewChild('stockForm', { static: true }) stockForm: NgForm;
 
   constructor(private stockService: StockService) { }
-  stocks: any[];
+
 
   ngOnInit(): void {
-    this.stockService.getAllStocks().subscribe(res => {
-      this.stocks = res
-      console.log(res);
-    })
   }
+
+  OnSave() {
+    this.stock.StockSymbol = this.stockForm.value.txtStockSymbol;
+    this.stock.CompanyName = this.stockForm.value.txtCompanyName;
+    this.stock.Industry = this.stockForm.value.txtIndustry;
+    this.stockService.SaveStock(this.stock).subscribe(res => {
+      console.log(res);
+    });
+  }
+
 }

@@ -1,27 +1,25 @@
-<div class="row" style="margin: 100px;">
-    <div class="col-sm-7">
-        <ul>
-            <li *ngFor="let stock of stocks">{{ stock.CompanyName }} [{{ stock.StockSymbol }}]</li>
-          </ul>
+<div>
+    <div class="row">
+        <div class="col-sm-5">
+            <form (ngSubmit)="OnSave()" #stockForm="ngForm" autocomplete="off">
+                <div class="form-group">
+                    <label for="txtStockName">Stock Symbol</label>
+                    <input type="text" class="form-control" id="txtStockSymbol" name="txtStockSymbol" required ngModel>
+                </div>
+                <div class="form-group">
+                    <label for="txtStockName">Company Name</label>
+                    <input type="text" class="form-control" id="txtCompanyName" name="txtCompanyName" required ngModel>
+                </div>
+                <div class="form-group">
+                    <label for="txtStockName">Industry Description</label>
+                    <input type="text" class="form-control" id="txtIndustry" name="txtIndustry" required ngModel>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-dark" [disabled]="!stockForm.valid"
+                        (click)="OnSave()">Save</button> &nbsp;
+                    <button type="button" class="btn btn-dark">Reset</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="col-sm-5">
-        <form>
-            <div class="form-group">
-                <label for="txtStockName">Stock Symbol</label>
-                <input type="text" class="form-control" id="txtStockSymbol">
-            </div>
-            <div class="form-group">
-                <label for="txtStockName">Company Name</label>
-                <input type="text" class="form-control" id="txtCompanyName">
-            </div>
-            <div class="form-group">
-                <label for="txtStockName">Industry Description</label>
-                <input type="text" class="form-control" id="txtIndustry">
-            </div>
-            <div class="form-group">
-                <button type="button" class="btn btn-primary">Save</button> &nbsp;
-                <button type="button" class="btn btn-primary">Reset</button>
-            </div>
-        </form>
-    </div>   
 </div>
