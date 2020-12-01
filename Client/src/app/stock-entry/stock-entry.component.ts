@@ -12,7 +12,7 @@ export class StockEntryComponent implements OnInit {
   stock: any = {};
   @ViewChild('stockForm', { static: true }) stockForm: NgForm;
 
-  selectedStockID: any;
+  selectedStockID: any = -1;
   isAddNewMode: boolean;
 
   constructor(private stockService: StockService,
@@ -27,6 +27,7 @@ export class StockEntryComponent implements OnInit {
         this.loadStockDetails();
       }
       else {
+        this.selectedStockID = -1;
         this.isAddNewMode = true;
       }
     })
@@ -46,21 +47,17 @@ export class StockEntryComponent implements OnInit {
   }
 
   OnSave() {
-    /* if (this.isAddNewMode) {
-      this.stock.stockID = -1;
-    }
-    else {
-      this.stock.stockID = this.stockForm.value.txtstockID;
-    } */
-    if (!this.isAddNewMode) {
-      this.stock.stockID = this.stockForm.value.txtstockID;
-    }
+    this.stock.stockID = this.selectedStockID;
     this.stock.stockSymbol = this.stockForm.value.txtStockSymbol;
     this.stock.companyName = this.stockForm.value.txtCompanyName;
     this.stock.industry = this.stockForm.value.txtIndustry;
     this.stock.quantity = this.stockForm.value.numQty;
-    this.stockService.SaveStock(this.stock, this.isAddNewMode).subscribe(res => {
+    console.log(this.stock);
+
+    this.stockService.SaveStock(this.stock).subscribe(res => {
       this.isAddNewMode = false;
+      console.log("response at page level= " + res);
+      this.selectedStockID = res;
       alert('Data saved Successfully!');
     },
       err => {

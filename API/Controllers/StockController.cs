@@ -39,7 +39,7 @@ namespace API.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<int> SaveStock(Stock stockObjParam)
+        public async Task<ActionResult<int>> SaveStock(Stock stockObjParam)
         {
             //-------------Use DTO Later---------------
             Stock stockObjSave = new Stock();
@@ -49,7 +49,7 @@ namespace API.Controllers
             stockObjSave.industry = stockObjParam.industry;
             stockObjSave.quantity = stockObjParam.quantity;
             //------------------------------------------
-            Stock stockSaved = await _context.Stocks.SingleOrDefaultAsync(s => s.stockSymbol == stockObjSave.stockSymbol);
+            Stock stockSaved = await _context.Stocks.SingleOrDefaultAsync(s => s.stockID == stockObjParam.stockID);
             if (stockSaved == null)
             {
                 _context.Stocks.Add(stockObjSave);

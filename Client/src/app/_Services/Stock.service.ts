@@ -46,18 +46,21 @@ export class StockService {
         }));
   }
 
-  SaveStock(stock: any, isAddNew: boolean): Observable<any> {
-    if (isAddNew) {
-      this.arrStocks.push(stock); //insert
+  SaveStock(stock: any) {
+    console.log('--3--'); 
+
+    if (stock.stockID < 1) {
+      this.arrStocks.push(stock); //insert case
     }
     else {
-      //update      
+      //update case
       var updatedStock = this.arrStocks.find(s => s.stockID == stock.stockID);
       updatedStock.stockSymbol = stock.stockSymbol;
       updatedStock.companyName = stock.companyName;
       updatedStock.industry = stock.industry;
       updatedStock.quantity = stock.quantity;
     }
+
     this.arrStocksModified.next(this.arrStocks.slice());
     //----Call API-----------    
     return this.http.post(this.baseURL + '/api/Stock',
