@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-stock-landing',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StockLandingComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+  }
+
+  onAddNewStock() {
+    this.router.navigate(['edit'], { relativeTo: this.activatedRoute });
   }
 
 }

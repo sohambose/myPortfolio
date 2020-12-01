@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="row">
+    <!-- <div class="row" style="display: none;">
         <div>
             <ul class="list-group">
                 <li class="list-group" *ngFor="let stock of stocks">
@@ -7,10 +7,10 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div> -->
     <div class="row">
-        <div>
-            <button type="button" class="btn btn-dark" (click)="onAddNewStock()">Add Stock to Portfolio</button>
-        </div>
+        <ag-grid-angular id="grdStocks" suppressHorizontalScroll="true" style="width: 500px; height: 450px;"
+            class="ag-theme-alpine" [rowData]="rowData" [columnDefs]="columnDefs" (rowClicked)='onRowClicked($event)'>
+        </ag-grid-angular>
     </div>
 </div>

@@ -1,18 +1,20 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Entities
 {
     public class Stock
     {
-        public int StockID { get; set; }
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int stockID { get; set; }
         [Required]
-        public string StockSymbol { get; set; }
+        public string stockSymbol { get; set; }
         [Required]
-        public string CompanyName { get; set; }
+        public string companyName { get; set; }
         [Required]
-        public string Industry { get; set; }
+        public string industry { get; set; }
 
         [Required]
-        public int Quantity { get; set; }
+        public int quantity { get; set; }
     }
 }

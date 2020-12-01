@@ -11,6 +11,7 @@ import { StockPortfolioListComponent } from './stock-portfolio-list/stock-portfo
 import { HomeComponent } from './home/home.component';
 import { StockLandingComponent } from './stock-landing/stock-landing.component';
 import { FormsModule } from '@angular/forms';
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    AgGridModule.withComponents([])
   ],
   providers: [],
   bootstrap: [AppComponent]

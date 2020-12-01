@@ -1,1 +1,13 @@
-<p>stock-landing works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-7">
+            <app-stock-portfolio-list></app-stock-portfolio-list>
+            <br>
+            <button type="button" class="btn btn-dark btn-sm" (click)="onAddNewStock()">+ Add Stock to
+                Portfolio</button>
+        </div>
+        <div class="col-md-5">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
