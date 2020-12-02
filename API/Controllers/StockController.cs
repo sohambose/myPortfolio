@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Data;
@@ -41,26 +42,26 @@ namespace API.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<int>> SaveStock(Stock stockObjParam)
         {
-            //-------------Use DTO Later---------------
             Stock stockObjSave = new Stock();
+            bool isAddNew = true;
+            stockObjSave = await _context.Stocks.SingleOrDefaultAsync(s => s.stockID == stockObjParam.stockID);
+            if (stockObjSave == null)
+            {
+                isAddNew = true;
+                stockObjSave = new Stock();
+
+            }
+            else
+                isAddNew = false;
 
             stockObjSave.stockSymbol = stockObjParam.stockSymbol;
             stockObjSave.companyName = stockObjParam.companyName;
             stockObjSave.industry = stockObjParam.industry;
             stockObjSave.quantity = stockObjParam.quantity;
-            //------------------------------------------
-            Stock stockSaved = await _context.Stocks.SingleOrDefaultAsync(s => s.stockID == stockObjParam.stockID);
-            if (stockSaved == null)
-            {
+
+            if (isAddNew)
                 _context.Stocks.Add(stockObjSave);
-            }
-            else
-            {
-                stockSaved.stockSymbol = stockObjSave.stockSymbol;
-                stockSaved.companyName = stockObjSave.companyName;
-                stockSaved.industry = stockObjSave.industry;
-                stockSaved.quantity = stockObjSave.quantity;
-            }
+
             _context.SaveChanges();
 
             return stockObjSave.stockID;

@@ -52,13 +52,12 @@ export class StockEntryComponent implements OnInit {
     this.stock.companyName = this.stockForm.value.txtCompanyName;
     this.stock.industry = this.stockForm.value.txtIndustry;
     this.stock.quantity = this.stockForm.value.numQty;
-    console.log(this.stock);
 
     this.stockService.SaveStock(this.stock).subscribe(res => {
       this.isAddNewMode = false;
-      console.log("response at page level= " + res);
       this.selectedStockID = res;
       alert('Data saved Successfully!');
+      this.router.navigate(['/portfolio']);
     },
       err => {
         console.log(err);
@@ -68,5 +67,4 @@ export class StockEntryComponent implements OnInit {
   onCancel() {
     this.router.navigate(['/portfolio']);
   }
-
 }

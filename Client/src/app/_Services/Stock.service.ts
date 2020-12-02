@@ -47,8 +47,6 @@ export class StockService {
   }
 
   SaveStock(stock: any) {
-    console.log('--3--'); 
-
     if (stock.stockID < 1) {
       this.arrStocks.push(stock); //insert case
     }
