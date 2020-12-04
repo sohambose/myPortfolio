@@ -66,5 +66,20 @@ namespace API.Controllers
 
             return stockObjSave.stockID;
         }
+
+        [HttpDelete("{stockID}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<int>> DeleteStock(int stockID)
+        {
+            Stock stockObj = new Stock();
+            stockObj = await _context.Stocks.SingleOrDefaultAsync(s => s.stockID == stockID);
+
+            if (stockObj != null)
+            {
+                _context.Stocks.Remove(stockObj);
+                _context.SaveChanges();
+            }
+            return 1;
+        }
     }
 }

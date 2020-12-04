@@ -71,4 +71,16 @@ export class StockService {
       }
     );
   }
+
+  DeleteStock(stockID: number) {
+    console.log('delete= ' + stockID);
+
+    var deleteStockIndex = this.arrStocks.findIndex(s => s.stockID == stockID);
+    this.arrStocks.splice(deleteStockIndex, 1);
+    this.arrStocksModified.next(this.arrStocks.slice());
+
+    //----Call API-----------  
+    console.log('before API Call');
+    return this.http.delete(this.baseURL + '/api/Stock/' + stockID);
+  }
 }

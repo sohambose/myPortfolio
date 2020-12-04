@@ -9,8 +9,9 @@
         </div>
     </div> -->
     <div class="row">
-        <ag-grid-angular id="grdStocks" suppressHorizontalScroll="true" style="width: 500px; height: 450px;"
-            class="ag-theme-alpine" [rowData]="rowData" [columnDefs]="columnDefs" (rowClicked)='onRowClicked($event)'>
+        <ag-grid-angular #grdStocks id="grdStocks" suppressHorizontalScroll="false" style="width: 500px; height: 450px;"
+            class="ag-theme-alpine" [rowData]="rowData" [columnDefs]="columnDefs" (rowClicked)='onRowClicked($event)'
+            (cellClicked)='onCellClicked($event)' (rowSelected)='onRowSelected($event)'>
         </ag-grid-angular>
     </div>
 </div>

@@ -67,4 +67,15 @@ export class StockEntryComponent implements OnInit {
   onCancel() {
     this.router.navigate(['/portfolio']);
   }
+
+  onDelete() {
+    this.stockService.DeleteStock(this.selectedStockID).subscribe(res => {
+      console.log('Delete success');
+    },
+      err => {
+        console.log('error= ');
+        console.log(err);
+      }
+    );
+  }
 }
