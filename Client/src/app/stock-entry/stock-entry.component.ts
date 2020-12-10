@@ -70,7 +70,8 @@ export class StockEntryComponent implements OnInit {
 
   onDelete() {
     this.stockService.DeleteStock(this.selectedStockID).subscribe(res => {
-      console.log('Delete success');
+      alert('Data Deleted Successfully!');
+      this.router.navigate(['/portfolio']);
     },
       err => {
         console.log('error= ');

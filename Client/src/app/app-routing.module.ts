@@ -1,3 +1,4 @@
+import { ExcelUploadComponent } from './excel-upload/excel-upload.component';
 import { StockLandingComponent } from './stock-landing/stock-landing.component';
 import { HomeComponent } from './home/home.component';
 import { StockEntryComponent } from './stock-entry/stock-entry.component';
@@ -12,7 +13,8 @@ const routes: Routes = [
       { path: 'edit', component: StockEntryComponent },
       { path: 'edit/:stockID', component: StockEntryComponent }
     ]
-  }
+  },
+  { path: 'excel-upload', component: ExcelUploadComponent }
 ];
 
 @NgModule({

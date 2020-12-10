@@ -1,0 +1,10 @@
+<form>
+    <div class="custom-file">
+        <label for="file" class="custom-file-label">{{lblFileUpload}}</label>
+        <input type="file" id="file" class="custom-file-input" (change)="handleFileInput($event.target.files)">
+        <br /><br />
+        <button type="button" class="btn btn-dark btn-sm" (click)="onUploadClick()"
+            [disabled]="!IsFileSelected">Upload</button> &nbsp;&nbsp;
+        
+    </div>
+</form>

@@ -41,9 +41,8 @@ export class StockPortfolioListComponent implements OnInit {
   }
 
   onRowSelected(event: any) {
-    console.log(event);
-    alert(this.grdStocks.api.getSelectedRows());
-    alert(this.grdStocks.api.getSelectedRows()[0].stockID);
+    /* alert(this.grdStocks.api.getSelectedRows());
+    alert(this.grdStocks.api.getSelectedRows()[0].stockID); */
   }
 
   onCellClicked(event: any) {
