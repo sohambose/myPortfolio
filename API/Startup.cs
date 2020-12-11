@@ -39,7 +39,7 @@ namespace API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -47,13 +47,12 @@ namespace API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-             //For CORS
-            app.UseCors(x=> x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200")); 
+            //For CORS
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
             app.UseAuthorization();
 
@@ -61,6 +60,8 @@ namespace API
             {
                 endpoints.MapControllers();
             });
+
+            //loggerFactory.add
         }
     }
 }

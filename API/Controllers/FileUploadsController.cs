@@ -22,6 +22,7 @@ namespace API.Controllers
     public class FileUploadsController : BaseAPIController
     {
         private readonly DataContext _context;
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(typeof(FileUploadsController));
         public FileUploadsController(DataContext context)
         {
             this._context = context;
