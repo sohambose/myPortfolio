@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using API.Data;
+using API.DTOS;
 using API.Entities;
 using CsvHelper;
 using Microsoft.AspNetCore.Authorization;
@@ -30,25 +31,59 @@ namespace API.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> UploadFile()
         {
-            var file = Request.Form.Files[0];
+            string filePath = string.Empty;
+            IFormFile file = Request.Form.Files[0];
             if (file.Length > 0)
             {
-                string filePath = @"D:\Projects\PersonalPortfolioManagement\myPortfolio\API\Files\" + file.FileName.ToString();
+                filePath = @"D:\Projects\PersonalPortfolioManagement\myPortfolio\API\Files\" + file.FileName.ToString();
 
                 using (var stream = System.IO.File.Create(filePath))
                 {
                     await file.CopyToAsync(stream);
                 }
-
-                TextReader reader = new StreamReader(filePath);
-                var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
-                IEnumerable<StockFundamentalAttributeCSV> lstrecords = csvReader.GetRecords<StockFundamentalAttributeCSV>();
             }
+
+            SaveCSVData(filePath, 3);
             return Ok();
         }
 
+        private void SaveCSVData(string filePath, int stockID)
+        {
+            TextReader reader = new StreamReader(filePath);
+            var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
+            IEnumerable<StockFundamentalAttributeCSV> lstrecords = csvReader.GetRecords<StockFundamentalAttributeCSV>();
 
+            _context.StockFundamentalAttributes.RemoveRange(_context.StockFundamentalAttributes.Where(sfa => sfa.stockID == stockID));
+            _context.SaveChanges();
 
+            List<StockFundamentalAttributes> lstSFA = new List<StockFundamentalAttributes>();
+            foreach (StockFundamentalAttributeCSV csvitem in lstrecords)
+            {
+                StockFundamentalAttributes sfaObj = new StockFundamentalAttributes();
+
+                sfaObj.stockID = stockID;
+
+                sfaObj.Statement = csvitem.Statement;
+                sfaObj.Head = csvitem.Head;
+                sfaObj.Y0 = csvitem.Y0;
+                sfaObj.Y1 = csvitem.Y1;
+                sfaObj.Y2 = csvitem.Y2;
+                sfaObj.Y3 = csvitem.Y3;
+                sfaObj.Y4 = csvitem.Y4;
+                sfaObj.Y5 = csvitem.Y5;
+                sfaObj.Y6 = csvitem.Y6;
+                sfaObj.Y7 = csvitem.Y7;
+                sfaObj.Y8 = csvitem.Y8;
+                sfaObj.Y9 = csvitem.Y9;
+
+                sfaObj.RecordTimeStamp = DateTime.Now;
+
+                lstSFA.Add(sfaObj);
+            }
+
+            _context.StockFundamentalAttributes.AddRange(lstSFA);
+            _context.SaveChanges();
+        }
 
 
         #region <Commented>

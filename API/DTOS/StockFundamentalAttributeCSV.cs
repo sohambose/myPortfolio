@@ -1,7 +1,7 @@
-namespace API.Entities
+namespace API.DTOS
 {
     public class StockFundamentalAttributeCSV
-    {        
+    {
         public string Statement { get; set; }
         public string Head { get; set; }
         public string Y9 { get; set; }
