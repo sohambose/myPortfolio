@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { StockService } from './../_Services/Stock.service';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { UploadService } from '../_Services/upload.service';
+import { Form, NgForm } from '@angular/forms';
+
 
 @Component({
   selector: 'app-excel-upload',
@@ -11,9 +14,23 @@ export class ExcelUploadComponent implements OnInit {
   lblFileUpload: string = 'Select File';
   IsFileSelected: boolean = false;
 
-  constructor(private uploadService: UploadService) { }
+  lstStocks: any[] = [];
+  selectedStock: any;
+
+  @ViewChild('fileFundamental', { static: true }) fileFundamental: ElementRef;
+
+  constructor(private uploadService: UploadService, private stockService: StockService) { }
 
   ngOnInit(): void {
+    this.stockService.getAllStocks().subscribe(res => {
+      this.lstStocks = res;
+      this.selectedStock = -1;
+    })
+  }
+
+  handleSelection() {
+    this.fileFundamental.nativeElement.value = "";
+    this.lblFileUpload = "Select File";
   }
 
 
@@ -25,9 +42,14 @@ export class ExcelUploadComponent implements OnInit {
   }
 
   onUploadClick() {
-    this.uploadService.uploadFile(this.fileToUpload).subscribe(res => {
-      console.log(res);
-    })
+    if (this.selectedStock < 0) {
+      alert('Select a stock from List');
+    }
+    else {
+      this.uploadService.uploadFile(this.fileToUpload, this.selectedStock).subscribe(res => {
+        console.log(res);
+      })
+    }
   }
 
 }

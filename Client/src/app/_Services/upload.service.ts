@@ -9,10 +9,11 @@ export class UploadService {
 
   constructor(private http: HttpClient) { }
 
-  uploadFile(file: File) {
+  uploadFile(file: File, stockID: number) {
     const formData: FormData = new FormData();
-    formData.append('fileKey', file, file.name);
-    console.log('In Service: ' + file);
+    formData.append('fileuploaded', file, file.name);
+    formData.append('stockID', stockID.toString());
+    console.log('In Service: ' + file + ' For Stock ID: ' + stockID.toString());
     return this.http.post(this.baseURL + '/api/FileUploads', formData);
   }
 }

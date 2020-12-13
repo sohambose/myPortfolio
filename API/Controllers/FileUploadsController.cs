@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOS;
@@ -33,57 +30,72 @@ namespace API.Controllers
         public async Task<ActionResult> UploadFile()
         {
             string filePath = string.Empty;
+            int stockID = -1;
             IFormFile file = Request.Form.Files[0];
+
+            if (!string.IsNullOrEmpty(Request.Form["stockID"]))
+                stockID = int.Parse(Request.Form["stockID"].ToString());
+
             if (file.Length > 0)
             {
-                filePath = @"D:\Projects\PersonalPortfolioManagement\myPortfolio\API\Files\" + file.FileName.ToString();
-
+                filePath = @"D:\Projects\PersonalPortfolioManagement\myPortfolio\API\Files\" + file.FileName.ToString() + "_" + DateTime.Now.ToFileTime();
+                FileInfo fileInfo = new FileInfo(filePath);
+                if (fileInfo.Exists)
+                    fileInfo.Delete();
                 using (var stream = System.IO.File.Create(filePath))
                 {
                     await file.CopyToAsync(stream);
                 }
             }
 
-            SaveCSVData(filePath, 3);
+            SaveCSVData(filePath, stockID);
             return Ok();
         }
 
         private void SaveCSVData(string filePath, int stockID)
         {
-            TextReader reader = new StreamReader(filePath);
-            var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
-            IEnumerable<StockFundamentalAttributeCSV> lstrecords = csvReader.GetRecords<StockFundamentalAttributeCSV>();
-
-            _context.StockFundamentalAttributes.RemoveRange(_context.StockFundamentalAttributes.Where(sfa => sfa.stockID == stockID));
-            _context.SaveChanges();
-
-            List<StockFundamentalAttributes> lstSFA = new List<StockFundamentalAttributes>();
-            foreach (StockFundamentalAttributeCSV csvitem in lstrecords)
+            try
             {
-                StockFundamentalAttributes sfaObj = new StockFundamentalAttributes();
+                TextReader reader = new StreamReader(filePath);
+                var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
+                IEnumerable<StockFundamentalAttributeCSV> lstrecords = csvReader.GetRecords<StockFundamentalAttributeCSV>();
 
-                sfaObj.stockID = stockID;
+                _context.StockFundamentalAttributes.RemoveRange(_context.StockFundamentalAttributes.Where(sfa => sfa.stockID == stockID));
+                _context.SaveChanges();
 
-                sfaObj.Statement = csvitem.Statement;
-                sfaObj.Head = csvitem.Head;
-                sfaObj.Y0 = csvitem.Y0;
-                sfaObj.Y1 = csvitem.Y1;
-                sfaObj.Y2 = csvitem.Y2;
-                sfaObj.Y3 = csvitem.Y3;
-                sfaObj.Y4 = csvitem.Y4;
-                sfaObj.Y5 = csvitem.Y5;
-                sfaObj.Y6 = csvitem.Y6;
-                sfaObj.Y7 = csvitem.Y7;
-                sfaObj.Y8 = csvitem.Y8;
-                sfaObj.Y9 = csvitem.Y9;
+                List<StockFundamentalAttributes> lstSFA = new List<StockFundamentalAttributes>();
+                foreach (StockFundamentalAttributeCSV csvitem in lstrecords)
+                {
+                    StockFundamentalAttributes sfaObj = new StockFundamentalAttributes();
 
-                sfaObj.RecordTimeStamp = DateTime.Now;
+                    sfaObj.stockID = stockID;
 
-                lstSFA.Add(sfaObj);
+                    sfaObj.Statement = csvitem.Statement;
+                    sfaObj.Head = csvitem.Head;
+                    sfaObj.Y0 = csvitem.Y0;
+                    sfaObj.Y1 = csvitem.Y1;
+                    sfaObj.Y2 = csvitem.Y2;
+                    sfaObj.Y3 = csvitem.Y3;
+                    sfaObj.Y4 = csvitem.Y4;
+                    sfaObj.Y5 = csvitem.Y5;
+                    sfaObj.Y6 = csvitem.Y6;
+                    sfaObj.Y7 = csvitem.Y7;
+                    sfaObj.Y8 = csvitem.Y8;
+                    sfaObj.Y9 = csvitem.Y9;
+
+                    sfaObj.RecordTimeStamp = DateTime.Now;
+
+                    lstSFA.Add(sfaObj);
+                }
+
+                _context.StockFundamentalAttributes.AddRange(lstSFA);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message);
             }
 
-            _context.StockFundamentalAttributes.AddRange(lstSFA);
-            _context.SaveChanges();
         }
 
 
