@@ -1,17 +1,31 @@
 <div class="container">
-    <!-- <div class="row" style="display: none;">
-        <div>
-            <ul class="list-group">
-                <li class="list-group" *ngFor="let stock of stocks">
-                    <span><input type="checkbox">&nbsp;{{ stock.companyName }} [{{ stock.stockSymbol }}]</span>
-                </li>
-            </ul>
-        </div>
-    </div> -->
-    <div class="row">
+    <!-- ag grid Example <div class="row">
         <ag-grid-angular #grdStocks id="grdStocks" suppressHorizontalScroll="true" style="width: 500px; height: 450px;"
             class="ag-theme-alpine" [rowData]="rowData" [columnDefs]="columnDefs" (rowClicked)='onRowClicked($event)'
             (cellClicked)='onCellClicked($event)' (rowSelected)='onRowSelected($event)'>
         </ag-grid-angular>
-    </div>
+    </div> -->
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Symbol</th>
+                <th scope="col">Company Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let stock of stocks">
+                <td scope="row">{{stock.stockSymbol}}</td>
+                <td scope="row">{{stock.companyName}}</td>
+                <td scope="row">{{stock.quantity}}</td>
+                <td scope="row">
+                    <span><button type="button" class="btn btn-dark btn-sm"
+                            (click)="onEdit(stock.stockID)">Edit</button>&nbsp;&nbsp;<button type="button"
+                            class="btn btn-dark btn-sm" (click)="onDelete(stock.stockID)">Delete</button></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
