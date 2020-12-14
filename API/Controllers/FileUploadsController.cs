@@ -151,32 +151,6 @@ namespace API.Controllers
         }
 
 
-        private void processBalanceSheetData(StockFundamentalAttributes sfa)
-        {
-            if (sfa.Head.ToUpper().Equals("INVENTORYTURNOVER") || sfa.Head.ToUpper().Equals("ROE"))
-            {
-                decimal sum = decimal.Parse(sfa.Y0) + decimal.Parse(sfa.Y1) + decimal.Parse(sfa.Y2) + decimal.Parse(sfa.Y3)
-                 + decimal.Parse(sfa.Y4) + decimal.Parse(sfa.Y5) + decimal.Parse(sfa.Y6) + decimal.Parse(sfa.Y7) +
-                 decimal.Parse(sfa.Y8) + decimal.Parse(sfa.Y9);
-
-                decimal average = sum / 9;
-
-                sfa.observationValueType = "Average";
-                sfa.observationValue = average;
-            }
-            else
-            {
-                decimal EndingValue = decimal.Parse(sfa.Y0);
-                decimal BeginningValue = decimal.Parse(sfa.Y9);
-                int years = 9;
-
-                double Value = (Math.Pow((Convert.ToDouble(EndingValue) / Convert.ToDouble(BeginningValue)), (double)1 / (double)years) - 1) * 100;
-
-                sfa.observationValueType = "CAGR";
-                sfa.observationValue = Convert.ToDecimal(Value);
-            }
-        }
-
 
         #region <Commented>
         /* //----This uses EPPlus-------
