@@ -24,5 +24,9 @@ namespace API.Entities
         public string Y1 { get; set; }
         public string Y0 { get; set; }
         public DateTime RecordTimeStamp { get; set; }
+
+        [Column(TypeName = "decimal(20, 5)")]
+        public decimal? observationValue { get; set; }
+        public string observationValueType { get; set; }
     }
 }

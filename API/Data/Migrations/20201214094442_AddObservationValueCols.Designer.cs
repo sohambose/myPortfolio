@@ -4,14 +4,16 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201214094442_AddObservationValueCols")]
+    partial class AddObservationValueCols
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,7 +94,7 @@ namespace API.Data.Migrations
                     b.Property<string>("Y9")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("observationValue")
+                    b.Property<decimal>("observationValue")
                         .HasColumnType("decimal(20,5)");
 
                     b.Property<string>("observationValueType")

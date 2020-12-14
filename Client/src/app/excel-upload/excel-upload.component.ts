@@ -48,6 +48,7 @@ export class ExcelUploadComponent implements OnInit {
     else {
       this.uploadService.uploadFile(this.fileToUpload, this.selectedStock).subscribe(res => {
         console.log(res);
+        alert("File Uploaded and Processed succesfully!");
       })
     }
   }
