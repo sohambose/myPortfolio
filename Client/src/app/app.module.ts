@@ -13,6 +13,7 @@ import { StockLandingComponent } from './stock-landing/stock-landing.component';
 import { FormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
 import { ExcelUploadComponent } from './excel-upload/excel-upload.component';
+import { StockFundamentalReportComponent } from './stock-fundamental-report/stock-fundamental-report.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ExcelUploadComponent } from './excel-upload/excel-upload.component';
     StockPortfolioListComponent,
     HomeComponent,
     StockLandingComponent,
-    ExcelUploadComponent
+    ExcelUploadComponent,
+    StockFundamentalReportComponent
   ],
   imports: [
     BrowserModule,

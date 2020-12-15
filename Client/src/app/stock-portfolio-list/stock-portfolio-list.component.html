@@ -22,8 +22,10 @@
                 <td scope="row">{{stock.quantity}}</td>
                 <td scope="row">
                     <span><button type="button" class="btn btn-dark btn-sm"
+                        (click)="onViewReport(stock.stockID)">View Details</button>&nbsp;&nbsp;<button type="button" class="btn btn-dark btn-sm"
                             (click)="onEdit(stock.stockID)">Edit</button>&nbsp;&nbsp;<button type="button"
-                            class="btn btn-dark btn-sm" (click)="onDelete(stock.stockID)">Delete</button></span>
+                            class="btn btn-dark btn-sm" (click)="onDelete(stock.stockID)">Delete</button>
+                    </span>
                 </td>
             </tr>
         </tbody>

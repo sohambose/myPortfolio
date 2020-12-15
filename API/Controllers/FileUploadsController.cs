@@ -56,6 +56,7 @@ namespace API.Controllers
         {
             try
             {
+                int roundingPlaces = 2;
                 TextReader reader = new StreamReader(filePath);
                 var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
                 IEnumerable<StockFundamentalAttributeCSV> lstrecords = csvReader.GetRecords<StockFundamentalAttributeCSV>();
@@ -75,36 +76,25 @@ namespace API.Controllers
                     sfaObj.Statement = csvitem.Statement;
                     sfaObj.Head = csvitem.Head;
 
-                    sfaObj.Y0 = string.IsNullOrEmpty(csvitem.Y0) ? "0" : csvitem.Y0;
-                    sfaObj.Y1 = string.IsNullOrEmpty(csvitem.Y1) ? "0" : csvitem.Y1;
-                    sfaObj.Y2 = string.IsNullOrEmpty(csvitem.Y2) ? "0" : csvitem.Y2;
-                    sfaObj.Y3 = string.IsNullOrEmpty(csvitem.Y3) ? "0" : csvitem.Y3;
-                    sfaObj.Y4 = string.IsNullOrEmpty(csvitem.Y4) ? "0" : csvitem.Y4;
-                    sfaObj.Y5 = string.IsNullOrEmpty(csvitem.Y5) ? "0" : csvitem.Y5;
-                    sfaObj.Y6 = string.IsNullOrEmpty(csvitem.Y6) ? "0" : csvitem.Y6;
-                    sfaObj.Y7 = string.IsNullOrEmpty(csvitem.Y7) ? "0" : csvitem.Y7;
-                    sfaObj.Y8 = string.IsNullOrEmpty(csvitem.Y8) ? "0" : csvitem.Y8;
-                    sfaObj.Y9 = string.IsNullOrEmpty(csvitem.Y9) ? "0" : csvitem.Y9;
+                    sfaObj.Y0 = string.IsNullOrEmpty(csvitem.Y0) ? 0 : decimal.Round(decimal.Parse(csvitem.Y0), roundingPlaces);
+                    sfaObj.Y1 = string.IsNullOrEmpty(csvitem.Y1) ? 0 : decimal.Round(decimal.Parse(csvitem.Y1), roundingPlaces);
+                    sfaObj.Y2 = string.IsNullOrEmpty(csvitem.Y2) ? 0 : decimal.Round(decimal.Parse(csvitem.Y2), roundingPlaces);
+                    sfaObj.Y3 = string.IsNullOrEmpty(csvitem.Y3) ? 0 : decimal.Round(decimal.Parse(csvitem.Y3), roundingPlaces);
+                    sfaObj.Y4 = string.IsNullOrEmpty(csvitem.Y4) ? 0 : decimal.Round(decimal.Parse(csvitem.Y4), roundingPlaces);
+                    sfaObj.Y5 = string.IsNullOrEmpty(csvitem.Y5) ? 0 : decimal.Round(decimal.Parse(csvitem.Y5), roundingPlaces);
+                    sfaObj.Y6 = string.IsNullOrEmpty(csvitem.Y6) ? 0 : decimal.Round(decimal.Parse(csvitem.Y6), roundingPlaces);
+                    sfaObj.Y7 = string.IsNullOrEmpty(csvitem.Y7) ? 0 : decimal.Round(decimal.Parse(csvitem.Y7), roundingPlaces);
+                    sfaObj.Y8 = string.IsNullOrEmpty(csvitem.Y8) ? 0 : decimal.Round(decimal.Parse(csvitem.Y8), roundingPlaces);
+                    sfaObj.Y9 = string.IsNullOrEmpty(csvitem.Y9) ? 0 : decimal.Round(decimal.Parse(csvitem.Y9), roundingPlaces);
 
                     sfaObj.RecordTimeStamp = DateTime.Now;
-
-                    /* if (sfaObj.Statement.ToUpper().Equals("PL"))
-                        processPLData(sfaObj);
-
-                    if (sfaObj.Statement.ToUpper().Equals("BALANCESHEET"))
-                        processPLData(sfaObj);
-
-                    if (sfaObj.Statement.ToUpper().Equals("BALANCESHEET"))
-                        processPLData(sfaObj); */
-                    processData(sfaObj);
+                    CalculateValues(sfaObj);
 
                     lstSFA.Add(sfaObj);
                 }
 
                 _context.StockFundamentalAttributes.AddRange(lstSFA);
                 _context.SaveChanges();
-
-                //processPLData();
             }
             catch (Exception ex)
             {
@@ -112,7 +102,7 @@ namespace API.Controllers
             }
         }
 
-        private void processData(StockFundamentalAttributes sfa)
+        private void CalculateValues(StockFundamentalAttributes sfa)
         {
             log.Debug("Processing " + sfa.Head);
             if (sfa.Head.ToUpper().Equals("GROSSPROFITMARGIN") || sfa.Head.ToUpper().Equals("NETPROFITPERCENTAGE")
@@ -126,19 +116,14 @@ namespace API.Controllers
                 || sfa.Head.ToUpper().Equals("RECEIVABLETURNOVERRATIO") || sfa.Head.ToUpper().Equals("DAYSSALESOUTSTANDING")
                )
             {
-                decimal sum = decimal.Parse(sfa.Y0) + decimal.Parse(sfa.Y1) + decimal.Parse(sfa.Y2) + decimal.Parse(sfa.Y3)
-                 + decimal.Parse(sfa.Y4) + decimal.Parse(sfa.Y5) + decimal.Parse(sfa.Y6) + decimal.Parse(sfa.Y7) +
-                 decimal.Parse(sfa.Y8) + decimal.Parse(sfa.Y9);
-
-                decimal average = sum / 9;
-
+                decimal average = (sfa.Y0 + sfa.Y1 + sfa.Y2 + sfa.Y3 + sfa.Y4 + sfa.Y5 + sfa.Y6 + sfa.Y7 + sfa.Y8 + sfa.Y9) / 9;
                 sfa.observationValueType = "Average";
                 sfa.observationValue = average;
             }
             else
             {
-                decimal EndingValue = decimal.Parse(sfa.Y0);
-                decimal BeginningValue = decimal.Parse(sfa.Y9);
+                decimal EndingValue = sfa.Y0;
+                decimal BeginningValue = sfa.Y9;
                 int years = 9;
                 double Value = 0.0;
 

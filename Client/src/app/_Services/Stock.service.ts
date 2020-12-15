@@ -11,11 +11,12 @@ export class StockService {
   constructor(private http: HttpClient) { }
 
   baseURL: string = 'https://localhost:5001';
-  //private options = { headers: new HttpHeaders().set('Content-Type', 'application/json') };
-
   arrStocks: any[] = [];
   arrStocksModified = new Subject<any[]>();
 
+  arrStockFundamentalAttributes: any[] = [];
+
+  //-----------------------------Stock Methods-----------------------------------
   getAllStocks() {
     return this.http.get(this.baseURL + '/api/Stock')
       .pipe(
@@ -83,4 +84,24 @@ export class StockService {
     console.log('before API Call');
     return this.http.delete(this.baseURL + '/api/Stock/' + stockID);
   }
+
+
+  //-----------------Stock Fundamental Methods--------------------------------
+
+  getStockFundamentalAttributes(stockID: number) {
+    return this.http.get(this.baseURL + '/api/StockFundamentalAttribute/' + stockID)
+      .pipe(
+        map(responseData => {
+          const arrSFA = [];
+          for (const key in responseData) {
+            if (responseData.hasOwnProperty(key)) {
+              arrSFA.push({ ...responseData[key], id: key });
+            }
+          }
+          this.arrStockFundamentalAttributes = arrSFA
+          return this.arrStockFundamentalAttributes;
+        }));
+  }
+
+
 }

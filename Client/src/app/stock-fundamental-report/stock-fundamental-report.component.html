@@ -1,0 +1,129 @@
+<div class="border border-dark">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table">
+                <tr id="trStockInfo">
+                    <td>
+                        <b>Symbol:&nbsp;&nbsp;</b> {{stockSymbol}}
+                    </td>
+                    <td>
+                        <b>Company:&nbsp;&nbsp;</b> {{stockCompanyName}}
+                    </td>
+                    <td>
+                        <b>Industry:&nbsp;&nbsp;</b> {{stockIndustry}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-sm table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                       <!--  <th scope="col"><small>Statement</small></th> -->
+                        <th scope="col"><small>Head</small></th>
+                        <th scope="col"><small>Type</small></th>
+                        <th scope="col"><small>Value</small></th>
+                        <th scope="col"><small>Y9</small></th>
+                        <th scope="col"><small>Y8</small></th>
+                        <th scope="col"><small>Y7</small></th>
+                        <th scope="col"><small>Y6</small></th>
+                        <th scope="col"><small>Y5</small></th>
+                        <th scope="col"><small>Y4</small></th>
+                        <th scope="col"><small>Y3</small></th>
+                        <th scope="col"><small>Y2</small></th>
+                        <th scope="col"><small>Y1</small></th>
+                        <th scope="col"><small>Y0</small></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="13" class="table-primary">
+                            <small><b>Profit & Loss</b></small> 
+                        </td>
+                    </tr>
+                    <tr *ngFor="let sfa of stockPL">
+                       <!--  <td scope="row"><small>{{sfa.statement}}</small></td> -->
+                        <td scope="row"><small>{{sfa.head}}</small></td>
+                        <td scope="row"><small>{{sfa.observationValueType}}</small></td>
+                        <td scope="row"><small>{{sfa.observationValue}}</small></td>
+                        <td scope="row"><small>{{sfa.y9}}</small></td>
+                        <td scope="row"><small>{{sfa.y8}}</small></td>
+                        <td scope="row"><small>{{sfa.y7}}</small></td>
+                        <td scope="row"><small>{{sfa.y6}}</small></td>
+                        <td scope="row"><small>{{sfa.y5}}</small></td>
+                        <td scope="row"><small>{{sfa.y4}}</small></td>
+                        <td scope="row"><small>{{sfa.y3}}</small></td>
+                        <td scope="row"><small>{{sfa.y2}}</small></td>
+                        <td scope="row"><small>{{sfa.y1}}</small></td>
+                        <td scope="row"><small>{{sfa.y0}}</small></td>
+                    </tr>
+                    <tr>
+                        <td colspan="13" class="table-primary">
+                            <small><b>Balance Sheet</b></small> 
+                        </td>
+                    </tr>
+                    <tr *ngFor="let sfa of stockBalanceSheet">
+                        <!-- <td scope="row"><small>{{sfa.statement}}</small></td> -->
+                        <td scope="row"><small>{{sfa.head}}</small></td>
+                        <td scope="row"><small>{{sfa.observationValueType}}</small></td>
+                        <td scope="row"><small>{{sfa.observationValue}}</small></td>
+                        <td scope="row"><small>{{sfa.y9}}</small></td>
+                        <td scope="row"><small>{{sfa.y8}}</small></td>
+                        <td scope="row"><small>{{sfa.y7}}</small></td>
+                        <td scope="row"><small>{{sfa.y6}}</small></td>
+                        <td scope="row"><small>{{sfa.y5}}</small></td>
+                        <td scope="row"><small>{{sfa.y4}}</small></td>
+                        <td scope="row"><small>{{sfa.y3}}</small></td>
+                        <td scope="row"><small>{{sfa.y2}}</small></td>
+                        <td scope="row"><small>{{sfa.y1}}</small></td>
+                        <td scope="row"><small>{{sfa.y0}}</small></td>
+                    </tr>
+                    <tr>
+                        <td colspan="13" class="table-primary">
+                            <small><b>Cash Flow</b></small> 
+                        </td>
+                    </tr>
+                    <tr *ngFor="let sfa of stockCashFlow">
+                       <!--  <td scope="row"><small>{{sfa.statement}}</small></td> -->
+                        <td scope="row"><small>{{sfa.head}}</small></td>
+                        <td scope="row"><small>{{sfa.observationValueType}}</small></td>
+                        <td scope="row"><small>{{sfa.observationValue}}</small></td>
+                        <td scope="row"><small>{{sfa.y9}}</small></td>
+                        <td scope="row"><small>{{sfa.y8}}</small></td>
+                        <td scope="row"><small>{{sfa.y7}}</small></td>
+                        <td scope="row"><small>{{sfa.y6}}</small></td>
+                        <td scope="row"><small>{{sfa.y5}}</small></td>
+                        <td scope="row"><small>{{sfa.y4}}</small></td>
+                        <td scope="row"><small>{{sfa.y3}}</small></td>
+                        <td scope="row"><small>{{sfa.y2}}</small></td>
+                        <td scope="row"><small>{{sfa.y1}}</small></td>
+                        <td scope="row"><small>{{sfa.y0}}</small></td>
+                    </tr>
+                    <tr>
+                        <td colspan="13" class="table-primary">
+                            <small><b>Ratios</b></small> 
+                        </td>
+                    </tr>
+                    <tr *ngFor="let sfa of stockRatios">
+                       <!--  <td scope="row"><small>{{sfa.statement}}</small></td> -->
+                        <td scope="row"><small>{{sfa.head}}</small></td>
+                        <td scope="row"><small>{{sfa.observationValueType}}</small></td>
+                        <td scope="row"><small>{{sfa.observationValue}}</small></td>
+                        <td scope="row"><small>{{sfa.y9}}</small></td>
+                        <td scope="row"><small>{{sfa.y8}}</small></td>
+                        <td scope="row"><small>{{sfa.y7}}</small></td>
+                        <td scope="row"><small>{{sfa.y6}}</small></td>
+                        <td scope="row"><small>{{sfa.y5}}</small></td>
+                        <td scope="row"><small>{{sfa.y4}}</small></td>
+                        <td scope="row"><small>{{sfa.y3}}</small></td>
+                        <td scope="row"><small>{{sfa.y2}}</small></td>
+                        <td scope="row"><small>{{sfa.y1}}</small></td>
+                        <td scope="row"><small>{{sfa.y0}}</small></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

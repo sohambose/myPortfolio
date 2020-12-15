@@ -30,6 +30,11 @@ export class StockPortfolioListComponent implements OnInit {
       this.rowData = this.stocks;
     })
   }
+  onViewReport(stockID) {
+    console.log(stockID);
+    this.selectedStockID = stockID;
+    this.router.navigate(['stock-fundamentals/' + this.selectedStockID], { relativeTo: this.activatedRoute });
+  }
 
   onEdit(stockID) {
     console.log(stockID);

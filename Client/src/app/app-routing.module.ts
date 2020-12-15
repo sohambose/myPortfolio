@@ -1,3 +1,4 @@
+import { StockFundamentalReportComponent } from './stock-fundamental-report/stock-fundamental-report.component';
 import { ExcelUploadComponent } from './excel-upload/excel-upload.component';
 import { StockLandingComponent } from './stock-landing/stock-landing.component';
 import { HomeComponent } from './home/home.component';
@@ -11,7 +12,8 @@ const routes: Routes = [
   {
     path: 'portfolio', component: StockLandingComponent, children: [
       { path: 'edit', component: StockEntryComponent },
-      { path: 'edit/:stockID', component: StockEntryComponent }
+      { path: 'edit/:stockID', component: StockEntryComponent },
+      { path: 'stock-fundamentals/:stockID', component: StockFundamentalReportComponent },
     ]
   },
   { path: 'excel-upload', component: ExcelUploadComponent }
