@@ -2,6 +2,17 @@
     <div class="row">
         <div class="col-sm-12">
             <table class="table">
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td style="text-align: right">
+                        <button type="button" (click)="closeComponent()"><b>x</b></button>
+                    </td>
+                </tr>
                 <tr id="trStockInfo">
                     <td>
                         <b>Symbol:&nbsp;&nbsp;</b> {{stockSymbol}}
@@ -18,10 +29,38 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
+            <p><small><b> Performance Snapshot:</b></small><br></p>
+        </div>
+    </div>
+    <div id="divGraph1stRow" class="row" *ngIf="!isNodataFound">
+        <div class="col-sm-4">
+            <canvas #revenueChartCanvas>{{ revenueChart }}</canvas>
+        </div>
+        <div class="col-sm-4">
+            <canvas #netprofitChartCanvas>{{ netProfitChart }}</canvas>
+        </div>
+        <div class="col-sm-4">
+            <canvas #debtChartCanvas>{{ debtChart }}</canvas>
+        </div>        
+    </div>
+    <div id="divGraph2ndRow" class="row" *ngIf="!isNodataFound">
+        <div class="col-sm-4">
+            <canvas #roeChartCanvas>{{ roeChart }}</canvas>
+        </div>
+        <div class="col-sm-4">
+            <canvas #roceChartCanvas>{{ roceChart }}</canvas>
+        </div> 
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p><small><b> Detailed Data: </b></small><br></p>
+        </div>
+    </div>
+    <div id="divfundamentalData" class="row" *ngIf="!isNodataFound">
+        <div class="col-sm-12">
             <table class="table table-sm table-hover">
                 <thead class="thead-dark">
-                    <tr>
-                       <!--  <th scope="col"><small>Statement</small></th> -->
+                    <tr>                       
                         <th scope="col"><small>Head</small></th>
                         <th scope="col"><small>Type</small></th>
                         <th scope="col"><small>Value</small></th>
@@ -40,11 +79,10 @@
                 <tbody>
                     <tr>
                         <td colspan="13" class="table-primary">
-                            <small><b>Profit & Loss</b></small> 
+                            <small><b>Profit & Loss</b></small>
                         </td>
                     </tr>
                     <tr *ngFor="let sfa of stockPL">
-                       <!--  <td scope="row"><small>{{sfa.statement}}</small></td> -->
                         <td scope="row"><small>{{sfa.head}}</small></td>
                         <td scope="row"><small>{{sfa.observationValueType}}</small></td>
                         <td scope="row"><small>{{sfa.observationValue}}</small></td>
@@ -61,11 +99,10 @@
                     </tr>
                     <tr>
                         <td colspan="13" class="table-primary">
-                            <small><b>Balance Sheet</b></small> 
+                            <small><b>Balance Sheet</b></small>
                         </td>
                     </tr>
                     <tr *ngFor="let sfa of stockBalanceSheet">
-                        <!-- <td scope="row"><small>{{sfa.statement}}</small></td> -->
                         <td scope="row"><small>{{sfa.head}}</small></td>
                         <td scope="row"><small>{{sfa.observationValueType}}</small></td>
                         <td scope="row"><small>{{sfa.observationValue}}</small></td>
@@ -82,11 +119,10 @@
                     </tr>
                     <tr>
                         <td colspan="13" class="table-primary">
-                            <small><b>Cash Flow</b></small> 
+                            <small><b>Cash Flow</b></small>
                         </td>
                     </tr>
                     <tr *ngFor="let sfa of stockCashFlow">
-                       <!--  <td scope="row"><small>{{sfa.statement}}</small></td> -->
                         <td scope="row"><small>{{sfa.head}}</small></td>
                         <td scope="row"><small>{{sfa.observationValueType}}</small></td>
                         <td scope="row"><small>{{sfa.observationValue}}</small></td>
@@ -103,11 +139,10 @@
                     </tr>
                     <tr>
                         <td colspan="13" class="table-primary">
-                            <small><b>Ratios</b></small> 
+                            <small><b>Ratios</b></small>
                         </td>
                     </tr>
                     <tr *ngFor="let sfa of stockRatios">
-                       <!--  <td scope="row"><small>{{sfa.statement}}</small></td> -->
                         <td scope="row"><small>{{sfa.head}}</small></td>
                         <td scope="row"><small>{{sfa.observationValueType}}</small></td>
                         <td scope="row"><small>{{sfa.observationValue}}</small></td>
@@ -124,6 +159,11 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="row" *ngIf="isNodataFound">
+        <div class="col-sm-12">
+            No Fundamental Data Found for Stock. Please feed data.
         </div>
     </div>
 </div>

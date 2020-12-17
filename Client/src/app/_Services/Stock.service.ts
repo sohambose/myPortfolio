@@ -16,6 +16,8 @@ export class StockService {
 
   arrStockFundamentalAttributes: any[] = [];
 
+  arrYAxisData: any[] = [];
+
   //-----------------------------Stock Methods-----------------------------------
   getAllStocks() {
     return this.http.get(this.baseURL + '/api/Stock')
@@ -89,19 +91,38 @@ export class StockService {
   //-----------------Stock Fundamental Methods--------------------------------
 
   getStockFundamentalAttributes(stockID: number) {
+    //console.log('in service:');
     return this.http.get(this.baseURL + '/api/StockFundamentalAttribute/' + stockID)
       .pipe(
         map(responseData => {
-          const arrSFA = [];
+          const arrSFA: any[] = [];
+          let arrGraphData: any[] = [];
           for (const key in responseData) {
             if (responseData.hasOwnProperty(key)) {
+              arrGraphData = this.processGraphData(responseData, key);
+              responseData[key].graphData = arrGraphData;
               arrSFA.push({ ...responseData[key], id: key });
             }
           }
-          this.arrStockFundamentalAttributes = arrSFA
+
+          this.arrStockFundamentalAttributes = arrSFA;
           return this.arrStockFundamentalAttributes;
         }));
   }
 
+  processGraphData(responseData: any, key: any) {
+    const arrRetVal: any[] = [];
+    arrRetVal.push(responseData[key].y0);
+    arrRetVal.push(responseData[key].y1);
+    arrRetVal.push(responseData[key].y2);
+    arrRetVal.push(responseData[key].y3);
+    arrRetVal.push(responseData[key].y4);
+    arrRetVal.push(responseData[key].y5);
+    arrRetVal.push(responseData[key].y6);
+    arrRetVal.push(responseData[key].y7);
+    arrRetVal.push(responseData[key].y8);
+    arrRetVal.push(responseData[key].y9);
 
+    return arrRetVal;
+  }
 }

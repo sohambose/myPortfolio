@@ -36,6 +36,8 @@ namespace API.Controllers
             retlstStockFA.AddRange(lstStockFADB.FindAll(fa => fa.Statement.ToUpper().Equals("LEVERAGERATIO")));
             retlstStockFA.AddRange(lstStockFADB.FindAll(fa => fa.Statement.ToUpper().Equals("OPERATINGRATIO ")));
 
+            
+
             return retlstStockFA;
         }
     }
