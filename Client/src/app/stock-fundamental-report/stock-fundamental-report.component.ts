@@ -109,10 +109,10 @@ export class StockFundamentalReportComponent implements OnInit {
     this.drawGraph('Debt', 'red', arrdebtData.reverse(), this.debtChartCanvas.nativeElement);
 
     const arrROEData = res.filter(r => r.head == 'ROE')[0].graphData;
-    this.drawGraph('Return on Equity', 'black', arrROEData.reverse(), this.roeChartCanvas.nativeElement);
+    this.drawGraph('Return on Equity', '#33D5FF', arrROEData.reverse(), this.roeChartCanvas.nativeElement);
 
     const arrROCEData = res.filter(r => r.head == 'ROCE')[0].graphData;
-    this.drawGraph('Return on Capital Employed', 'black', arrROCEData.reverse(), this.roceChartCanvas.nativeElement);
+    this.drawGraph('Return on Capital Employed', 'blue', arrROCEData.reverse(), this.roceChartCanvas.nativeElement);
 
   }
 
@@ -145,7 +145,7 @@ export class StockFundamentalReportComponent implements OnInit {
             display: true
           }],
           yAxes: [{
-            display: true
+            display: false
           }],
         }
       }
