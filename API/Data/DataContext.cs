@@ -11,5 +11,6 @@ namespace API.Data
 
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<StockFundamentalAttributes> StockFundamentalAttributes { get; set; }
+        public DbSet<StockQuarterlyData> StockQuarterlyData { get; set; }
     }
 }

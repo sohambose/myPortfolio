@@ -31,10 +31,15 @@ namespace API.Controllers
         {
             string filePath = string.Empty;
             int stockID = -1;
+            int uploadType = -1;
+
             IFormFile file = Request.Form.Files[0];
 
             if (!string.IsNullOrEmpty(Request.Form["stockID"]))
                 stockID = int.Parse(Request.Form["stockID"].ToString());
+
+            if (!string.IsNullOrEmpty(Request.Form["uploadType"]))
+                uploadType = int.Parse(Request.Form["uploadType"].ToString());
 
             if (file.Length > 0)
             {
@@ -48,11 +53,14 @@ namespace API.Controllers
                 }
             }
 
-            SaveCSVData(filePath, stockID);
+            if (uploadType == 1)
+                SaveCSVDataYearly(filePath, stockID);
+            else if (uploadType == 2)
+                SaveCSVDataQuarterly(filePath, stockID);
             return Ok();
         }
 
-        private void SaveCSVData(string filePath, int stockID)
+        private void SaveCSVDataYearly(string filePath, int stockID)
         {
             try
             {
@@ -135,6 +143,65 @@ namespace API.Controllers
             }
         }
 
+        private void SaveCSVDataQuarterly(string filePath, int stockID)
+        {
+            try
+            {
+                int roundingPlaces = 2;
+                TextReader reader = new StreamReader(filePath);
+                var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
+                IEnumerable<StockQuarterlyDataCSV> lstQtrlyrecords = csvReader.GetRecords<StockQuarterlyDataCSV>();
+
+                _context.StockQuarterlyData.RemoveRange(_context.StockQuarterlyData.Where(sfa => sfa.stockID == stockID));
+                _context.SaveChanges();
+
+                List<StockQuarterlyData> lstSQD = new List<StockQuarterlyData>();
+
+
+                foreach (StockQuarterlyDataCSV csvitem in lstQtrlyrecords)
+                {
+                    StockQuarterlyData sqdObj = new StockQuarterlyData();
+
+                    sqdObj.stockID = stockID;
+                    sqdObj.Narration = csvitem.Narration;
+
+                    sqdObj.Q0 = string.IsNullOrEmpty(csvitem.Q0) ? 0 : decimal.Round(decimal.Parse(csvitem.Q0), roundingPlaces);
+                    sqdObj.Q1 = string.IsNullOrEmpty(csvitem.Q1) ? 0 : decimal.Round(decimal.Parse(csvitem.Q1), roundingPlaces);
+                    sqdObj.Q2 = string.IsNullOrEmpty(csvitem.Q2) ? 0 : decimal.Round(decimal.Parse(csvitem.Q2), roundingPlaces);
+                    sqdObj.Q3 = string.IsNullOrEmpty(csvitem.Q3) ? 0 : decimal.Round(decimal.Parse(csvitem.Q3), roundingPlaces);
+                    sqdObj.Q4 = string.IsNullOrEmpty(csvitem.Q4) ? 0 : decimal.Round(decimal.Parse(csvitem.Q4), roundingPlaces);
+                    sqdObj.Q5 = string.IsNullOrEmpty(csvitem.Q5) ? 0 : decimal.Round(decimal.Parse(csvitem.Q5), roundingPlaces);
+                    sqdObj.Q6 = string.IsNullOrEmpty(csvitem.Q6) ? 0 : decimal.Round(decimal.Parse(csvitem.Q6), roundingPlaces);
+                    sqdObj.Q7 = string.IsNullOrEmpty(csvitem.Q7) ? 0 : decimal.Round(decimal.Parse(csvitem.Q7), roundingPlaces);
+                    sqdObj.Q8 = string.IsNullOrEmpty(csvitem.Q8) ? 0 : decimal.Round(decimal.Parse(csvitem.Q8), roundingPlaces);
+                    sqdObj.Q9 = string.IsNullOrEmpty(csvitem.Q9) ? 0 : decimal.Round(decimal.Parse(csvitem.Q9), roundingPlaces);
+
+                    sqdObj.RecordTimeStamp = DateTime.Now;
+
+                    //-----Calculate CAGR and insert---
+                    decimal EndingValue = sqdObj.Q0;
+                    decimal BeginningValue = sqdObj.Q9;
+                    int quarters = 9;
+                    double Value = 0.0;
+
+                    if (EndingValue > 0 && BeginningValue > 0)
+                        Value = (Math.Pow((Convert.ToDouble(EndingValue) / Convert.ToDouble(BeginningValue)), (double)1 / (double)quarters) - 1) * 100;
+
+                    sqdObj.observationValueType = "CAGR";
+                    sqdObj.observationValue = Convert.ToDecimal(Value);
+                    //----------------------------------
+
+                    lstSQD.Add(sqdObj);
+                }
+
+                _context.StockQuarterlyData.AddRange(lstSQD);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message);
+            }
+        }
 
 
         #region <Commented>
