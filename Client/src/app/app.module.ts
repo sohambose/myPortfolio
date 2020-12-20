@@ -27,6 +27,7 @@ import { StockFundamentalReportComponent } from './stock-fundamental-report/stoc
     StockLandingComponent,
     ExcelUploadComponent,
     StockFundamentalReportComponent
+    
   ],
   imports: [
     BrowserModule,

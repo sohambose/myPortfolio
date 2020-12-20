@@ -15,6 +15,7 @@ export class StockService {
   arrStocksModified = new Subject<any[]>();
 
   arrStockFundamentalAttributes: any[] = [];
+  arrStockQuarterlyData: any[] = [];
 
   arrYAxisData: any[] = [];
 
@@ -99,7 +100,7 @@ export class StockService {
           let arrGraphData: any[] = [];
           for (const key in responseData) {
             if (responseData.hasOwnProperty(key)) {
-              arrGraphData = this.processGraphData(responseData, key);
+              arrGraphData = this.processFundamentalGraphData(responseData, key);
               responseData[key].graphData = arrGraphData;
               arrSFA.push({ ...responseData[key], id: key });
             }
@@ -110,7 +111,42 @@ export class StockService {
         }));
   }
 
-  processGraphData(responseData: any, key: any) {
+  getStockQuarterlyData(stockID: number) {
+    return this.http.get(this.baseURL + '/api/StockQuarterlyData/' + stockID)
+      .pipe(
+        map(responseData => {
+          const arrSQD: any[] = [];
+          let arrGraphData: any[] = [];
+          for (const key in responseData) {
+            if (responseData.hasOwnProperty(key)) {
+              arrGraphData = this.processQuarterlyGraphData(responseData, key);
+              responseData[key].graphData = arrGraphData;
+              arrSQD.push({ ...responseData[key], id: key });
+            }
+          }
+          this.arrStockQuarterlyData = arrSQD;
+          return this.arrStockQuarterlyData;
+        }));
+  }
+
+  processQuarterlyGraphData(responseData: any, key: any) {
+    const arrRetVal: any[] = [];
+
+    arrRetVal.push(responseData[key].q0);
+    arrRetVal.push(responseData[key].q1);
+    arrRetVal.push(responseData[key].q2);
+    arrRetVal.push(responseData[key].q3);
+    arrRetVal.push(responseData[key].q4);
+    arrRetVal.push(responseData[key].q5);
+    arrRetVal.push(responseData[key].q6);
+    arrRetVal.push(responseData[key].q7);
+    arrRetVal.push(responseData[key].q8);
+    arrRetVal.push(responseData[key].q9);
+
+    return arrRetVal;
+  }
+
+  processFundamentalGraphData(responseData: any, key: any) {
     const arrRetVal: any[] = [];
     arrRetVal.push(responseData[key].y0);
     arrRetVal.push(responseData[key].y1);

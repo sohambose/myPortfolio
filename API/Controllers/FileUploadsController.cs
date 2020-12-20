@@ -148,6 +148,7 @@ namespace API.Controllers
             try
             {
                 int roundingPlaces = 2;
+
                 TextReader reader = new StreamReader(filePath);
                 var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
                 IEnumerable<StockQuarterlyDataCSV> lstQtrlyrecords = csvReader.GetRecords<StockQuarterlyDataCSV>();
@@ -156,7 +157,6 @@ namespace API.Controllers
                 _context.SaveChanges();
 
                 List<StockQuarterlyData> lstSQD = new List<StockQuarterlyData>();
-
 
                 foreach (StockQuarterlyDataCSV csvitem in lstQtrlyrecords)
                 {
@@ -193,6 +193,64 @@ namespace API.Controllers
 
                     lstSQD.Add(sqdObj);
                 }
+
+                //----------Insert Row For EBIT----------------------------------
+                StockQuarterlyData sqdEBIT = new StockQuarterlyData();
+                sqdEBIT.stockID = stockID;
+                sqdEBIT.Narration = "EBIT";
+                sqdEBIT.Q9 = lstSQD.Find(q => q.Narration.ToUpper().Equals("OPERATINGPROFIT")).Q9 +
+                           lstSQD.Find(q => q.Narration.ToUpper().Equals("DEPRECIATION")).Q9 +
+                           lstSQD.Find(q => q.Narration.ToUpper().Equals("INTEREST")).Q9 +
+                           lstSQD.Find(q => q.Narration.ToUpper().Equals("TAX")).Q9;
+
+                sqdEBIT.Q8 = lstSQD.Find(q => q.Narration.ToUpper().Equals("OPERATINGPROFIT")).Q8 +
+                lstSQD.Find(q => q.Narration.ToUpper().Equals("DEPRECIATION")).Q8 +
+                lstSQD.Find(q => q.Narration.ToUpper().Equals("INTEREST")).Q8 +
+                lstSQD.Find(q => q.Narration.ToUpper().Equals("TAX")).Q8;
+
+                sqdEBIT.Q7 = lstSQD.Find(q => q.Narration.ToUpper().Equals("OPERATINGPROFIT")).Q7 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("DEPRECIATION")).Q7 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("INTEREST")).Q7 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("TAX")).Q7;
+
+                sqdEBIT.Q6 = lstSQD.Find(q => q.Narration.ToUpper().Equals("OPERATINGPROFIT")).Q6 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("DEPRECIATION")).Q6 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("INTEREST")).Q6 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("TAX")).Q6;
+
+                sqdEBIT.Q5 = lstSQD.Find(q => q.Narration.ToUpper().Equals("OPERATINGPROFIT")).Q5 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("DEPRECIATION")).Q5 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("INTEREST")).Q5 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("TAX")).Q5;
+
+                sqdEBIT.Q4 = lstSQD.Find(q => q.Narration.ToUpper().Equals("OPERATINGPROFIT")).Q4 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("DEPRECIATION")).Q4 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("INTEREST")).Q4 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("TAX")).Q4;
+
+                sqdEBIT.Q3 = lstSQD.Find(q => q.Narration.ToUpper().Equals("OPERATINGPROFIT")).Q3 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("DEPRECIATION")).Q3 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("INTEREST")).Q3 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("TAX")).Q3;
+
+                sqdEBIT.Q2 = lstSQD.Find(q => q.Narration.ToUpper().Equals("OPERATINGPROFIT")).Q2 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("DEPRECIATION")).Q2 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("INTEREST")).Q2 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("TAX")).Q2;
+
+                sqdEBIT.Q1 = lstSQD.Find(q => q.Narration.ToUpper().Equals("OPERATINGPROFIT")).Q1 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("DEPRECIATION")).Q1 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("INTEREST")).Q1 +
+               lstSQD.Find(q => q.Narration.ToUpper().Equals("TAX")).Q1;
+
+                sqdEBIT.Q0 = lstSQD.Find(q => q.Narration.ToUpper().Equals("OPERATINGPROFIT")).Q0 +
+                lstSQD.Find(q => q.Narration.ToUpper().Equals("DEPRECIATION")).Q0 +
+                lstSQD.Find(q => q.Narration.ToUpper().Equals("INTEREST")).Q0 +
+                lstSQD.Find(q => q.Narration.ToUpper().Equals("TAX")).Q0;
+
+                lstSQD.Add(sqdEBIT);
+
+                //---------------------------------------------------------------
 
                 _context.StockQuarterlyData.AddRange(lstSQD);
                 _context.SaveChanges();

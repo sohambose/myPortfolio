@@ -1,6 +1,6 @@
 import { StockService } from './../_Services/Stock.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Chart } from 'chart.js';
 
 @Component({
@@ -21,25 +21,11 @@ export class StockFundamentalReportComponent implements OnInit {
   stockCashFlow: any[];
   stockRatios: any[];
 
+  stockQtrlyData: any[];
+
   isNodataFound: boolean;
 
-
-
-
-
-
-  //---------Chart Properties----------------------- 
-  /*  lineChartType = 'line';
-   xAxis = ['y9', 'y8', 'y7', 'y6', 'y5', 'y4', 'y3', 'y2', 'y1', 'y0'];
-   chartLabels = this.xAxis;
- 
-   arrRevenueData: any[] = [];
-   arrDebt: any[] = [];
-   revenuechartData: any[];
-   debtChartData: any[]; */
-
-
-  revenueChart: any;
+  chartVar: any;
   @ViewChild('revenueChartCanvas') private revenueChartCanvas;
 
   netProfitChart: any;
@@ -54,8 +40,18 @@ export class StockFundamentalReportComponent implements OnInit {
   roceChart: any;
   @ViewChild('roceChartCanvas') private roceChartCanvas;
 
-  xAxis = ['y9', 'y8', 'y7', 'y6', 'y5', 'y4', 'y3', 'y2', 'y1', 'y0'];
-  //arrRevenueData: any[] = [];
+  QSalesChart: any;
+  @ViewChild('QSalesChartCanvas') private QSalesChartCanvas;
+
+  QNetProfitChart: any;
+  @ViewChild('QNetProfitChartCanvas') private QNetProfitChartCanvas;
+
+  QEBITChart: any;
+  @ViewChild('QEBITChartCanvas') private QEBITChartCanvas;
+
+
+  xAxisFundamental = ['y9', 'y8', 'y7', 'y6', 'y5', 'y4', 'y3', 'y2', 'y1', 'y0'];
+  xAxisQuarterly = ['Q9', 'Q8', 'Q7', 'Q6', 'Q5', 'Q4', 'Q3', 'Q2', 'Q1', 'Q0'];
 
   //------------------------------------------------- 
 
@@ -70,7 +66,12 @@ export class StockFundamentalReportComponent implements OnInit {
       this.selectedStockID = r['stockID'];
       this.loadStockDetails();
       this.loadStockFundamentals();
+      this.loadStockQuarterlyData();
     })
+  }
+
+  closeComponent() {
+    this.router.navigate(['/portfolio']);
   }
 
   loadStockDetails() {
@@ -93,38 +94,61 @@ export class StockFundamentalReportComponent implements OnInit {
         this.stockBalanceSheet = res.filter(r => r.statement == 'BALANCESHEET');
         this.stockCashFlow = res.filter(r => r.statement == 'CASHFLOW');
         this.stockRatios = res.filter(r => (r.statement == 'LeverageRatio' || r.statement == 'OperatingRatio ' || r.statement == 'ProfitabilityRatio'));
-        this.loadGraphData(res);
+        this.loadGraphData(res, 1);
       }
     });
   }
 
-  loadGraphData(res: any) {
-    const arrRevenueData = res.filter(r => r.head == 'RevenueTotalCrores')[0].graphData;
-    this.drawGraph('Total Revenue', 'green', arrRevenueData.reverse(), this.revenueChartCanvas.nativeElement);
-
-    const arrNetProfitData = res.filter(r => r.head == 'NETProfit')[0].graphData;
-    this.drawGraph('Net Profit', 'blue', arrNetProfitData.reverse(), this.netprofitChartCanvas.nativeElement);
-
-    const arrdebtData = res.filter(r => r.head == 'Borrowings')[0].graphData;
-    this.drawGraph('Debt', 'red', arrdebtData.reverse(), this.debtChartCanvas.nativeElement);
-
-    const arrROEData = res.filter(r => r.head == 'ROE')[0].graphData;
-    this.drawGraph('Return on Equity', '#33D5FF', arrROEData.reverse(), this.roeChartCanvas.nativeElement);
-
-    const arrROCEData = res.filter(r => r.head == 'ROCE')[0].graphData;
-    this.drawGraph('Return on Capital Employed', 'blue', arrROCEData.reverse(), this.roceChartCanvas.nativeElement);
-
+  loadStockQuarterlyData() {
+    this.stockService.getStockQuarterlyData(this.selectedStockID).subscribe(res => {
+      if (res.length == 0) {
+        this.isNodataFound = true;
+      }
+      else {
+        this.isNodataFound = false;
+        this.stockQtrlyData = res;
+        this.loadGraphData(res, 2);
+      }
+    });
   }
 
-  closeComponent() {
-    this.router.navigate(['/portfolio']);
+  loadGraphData(res: any, reportType: number) {
+    if (reportType == 1) {
+      const arrRevenueData = res.filter(r => r.head == 'RevenueTotalCrores')[0].graphData;
+      this.drawGraph('Total Revenue', 'green', arrRevenueData.reverse(), this.xAxisFundamental, this.revenueChartCanvas.nativeElement);
+
+      const arrNetProfitData = res.filter(r => r.head == 'NETProfit')[0].graphData;
+      this.drawGraph('Net Profit', 'blue', arrNetProfitData.reverse(), this.xAxisFundamental, this.netprofitChartCanvas.nativeElement);
+
+      const arrdebtData = res.filter(r => r.head == 'Borrowings')[0].graphData;
+      this.drawGraph('Debt', 'red', arrdebtData.reverse(), this.xAxisFundamental, this.debtChartCanvas.nativeElement);
+
+      const arrROEData = res.filter(r => r.head == 'ROE')[0].graphData;
+      this.drawGraph('Return on Equity', '#33D5FF', arrROEData.reverse(), this.xAxisFundamental, this.roeChartCanvas.nativeElement);
+
+      const arrROCEData = res.filter(r => r.head == 'ROCE')[0].graphData;
+      this.drawGraph('Return on Capital Employed', 'blue', arrROCEData.reverse(), this.xAxisFundamental, this.roceChartCanvas.nativeElement);
+
+    }
+    else if (reportType == 2) {
+      console.log('Qtrly Data Graph----');
+      console.log(res);
+      const arrSalesData = res.filter(r => r.narration == 'Sales')[0].graphData;
+      this.drawGraph('Quarterly Sales', 'green', arrSalesData.reverse(), this.xAxisQuarterly, this.QSalesChartCanvas.nativeElement);
+
+      const arrNetProfitdata = res.filter(r => r.narration == 'NetProfit')[0].graphData;
+      this.drawGraph('Quarterly Net Profit', 'green', arrNetProfitdata.reverse(), this.xAxisQuarterly, this.QNetProfitChartCanvas.nativeElement);
+
+      const arrEBITdata = res.filter(r => r.narration == 'EBIT')[0].graphData;
+      this.drawGraph('Quarterly EBIT', 'green', arrEBITdata.reverse(), this.xAxisQuarterly, this.QEBITChartCanvas.nativeElement);
+    }
   }
 
-  drawGraph(dataTypeLabel: string, graphColor: string, arrData: any[], canvasRef: any) {
-    this.revenueChart = new Chart(canvasRef, {
+  drawGraph(dataTypeLabel: string, graphColor: string, arrData: any[], xAxisData: any[], canvasRef: any) {
+    this.chartVar = new Chart(canvasRef, {
       type: 'line',
       data: {
-        labels: this.xAxis, // your labels array
+        labels: xAxisData, // your labels array
         datasets: [
           {
             label: dataTypeLabel,
