@@ -27,7 +27,7 @@
             </table>
         </div>
     </div>
-    <div class="row" id="divQrtrlyGraphs">
+    <div class="row" id="divQrtrlyGraphs" [style.display]="!isNoQuarterlydataFound ? 'block' : 'none'">
         <div class="col-sm-12">
             <div class="row">
                 <div class="col-sm-12">
@@ -47,7 +47,7 @@
             </div>
         </div>
     </div>
-    <div class="row" id="divYearlyGraphs">
+    <div class="row" id="divYearlyGraphs" [style.display]="!isNoQuarterlydataFound ? 'block' : 'none'">
         <div class="col-sm-12">
             <div class="row">
                 <div class="col-sm-12">
@@ -75,7 +75,7 @@
             </div>
         </div>
     </div>
-    <div class="row" id="divQtrlyDataDetails">
+    <div class="row" id="divQtrlyDataDetails" [style.display]="!isNoQuarterlydataFound ? 'block' : 'none'">
         <div class="col-sm-12">
             <div class="row">
                 <div class="col-sm-12">
@@ -122,9 +122,7 @@
             </div>
         </div>
     </div>
-
-
-    <div id="divfundamentalDataDetails" class="row" *ngIf="!isNodataFound">
+    <div id="divfundamentalDataDetails" class="row" [style.display]="!isNoQuarterlydataFound ? 'block' : 'none'">
         <div class="col-sm-12">
             <div class="row">
                 <div class="col-sm-12">
@@ -237,9 +235,12 @@
         </div>
 
     </div>
-    <div class="row" *ngIf="isNodataFound" id="divNodataFound">
-        <div class="col-sm-12">
-            No Data Found for Stock. Please feed data.
+    <div class="row" id="divNodataFound">
+        <div class="col-sm-12" *ngIf="isNoYearlydataFound">
+            No Annual Data Found for Stock. Please feed data.
+        </div>
+        <div class="col-sm-12" *ngIf="isNoQuarterlydataFound">
+            No Quarterly Data Found for Stock. Please feed data.
         </div>
     </div>
 </div>

@@ -23,7 +23,8 @@ export class StockFundamentalReportComponent implements OnInit {
 
   stockQtrlyData: any[];
 
-  isNodataFound: boolean;
+  isNoYearlydataFound: boolean;
+  isNoQuarterlydataFound: boolean;
 
   chartVar: any;
   @ViewChild('revenueChartCanvas') private revenueChartCanvas;
@@ -86,10 +87,10 @@ export class StockFundamentalReportComponent implements OnInit {
   loadStockFundamentals() {
     this.stockService.getStockFundamentalAttributes(this.selectedStockID).subscribe(res => {
       if (res.length == 0) {
-        this.isNodataFound = true;
+        this.isNoYearlydataFound = true;
       }
       else {
-        this.isNodataFound = false;
+        this.isNoYearlydataFound = false;
         this.stockPL = res.filter(r => r.statement == 'PL');
         this.stockBalanceSheet = res.filter(r => r.statement == 'BALANCESHEET');
         this.stockCashFlow = res.filter(r => r.statement == 'CASHFLOW');
@@ -102,10 +103,10 @@ export class StockFundamentalReportComponent implements OnInit {
   loadStockQuarterlyData() {
     this.stockService.getStockQuarterlyData(this.selectedStockID).subscribe(res => {
       if (res.length == 0) {
-        this.isNodataFound = true;
+        this.isNoQuarterlydataFound = true;
       }
       else {
-        this.isNodataFound = false;
+        this.isNoQuarterlydataFound = false;
         this.stockQtrlyData = res;
         this.loadGraphData(res, 2);
       }

@@ -248,6 +248,20 @@ namespace API.Controllers
                 lstSQD.Find(q => q.Narration.ToUpper().Equals("INTEREST")).Q0 +
                 lstSQD.Find(q => q.Narration.ToUpper().Equals("TAX")).Q0;
 
+
+                //-----Calculate CAGR and insert---
+                decimal EndingValueEBIT = sqdEBIT.Q0;
+                decimal BeginningValueEBIT = sqdEBIT.Q9;
+                int quartersEBIT = 9;
+                double ValueEBIT = 0.0;
+
+                if (EndingValueEBIT > 0 && BeginningValueEBIT > 0)
+                    ValueEBIT = (Math.Pow((Convert.ToDouble(EndingValueEBIT) / Convert.ToDouble(BeginningValueEBIT)), (double)1 / (double)quartersEBIT) - 1) * 100;
+
+                sqdEBIT.observationValueType = "CAGR";
+                sqdEBIT.observationValue = Convert.ToDecimal(ValueEBIT);
+                //----------------------------------
+
                 lstSQD.Add(sqdEBIT);
 
                 //---------------------------------------------------------------
