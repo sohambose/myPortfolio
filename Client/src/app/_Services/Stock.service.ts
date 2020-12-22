@@ -36,6 +36,19 @@ export class StockService {
         }));
   }
 
+  sortStocksArrayByColumn(arrStocks: any[], PropertyName: any, isAscending: boolean) {
+    var ascFactor: number = isAscending ? 1 : -1;
+    arrStocks.sort((a, b) => {
+      if (a[PropertyName] > b[PropertyName]) {
+        return 1 * ascFactor;
+      }
+      else {
+        return -1 * ascFactor;
+      }
+    });
+    this.arrStocksModified.next(arrStocks.slice());  //Notify change in array.....
+  }
+
   getStockByID(stockID: number) {
     return this.http.get(this.baseURL + '/api/Stock/' + stockID)
       .pipe(

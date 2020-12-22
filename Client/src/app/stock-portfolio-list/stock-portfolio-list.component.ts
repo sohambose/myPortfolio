@@ -11,10 +11,34 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class StockPortfolioListComponent implements OnInit {
 
   stocks: any[] = [];
+  oldStocks: any[] = [];
+  isAsc: boolean = true;
+
   rowData: any;
   selectedStockID: any;
 
-  gridColumns: any[] = ['Symbol', 'Company Name', 'Industry', 'Quantity', 'Action']
+  gridColumns: any[] = [
+    {
+      "displayName": "Symbol",
+      "columnName": "stockSymbol"
+    },
+    {
+      "displayName": "Company Name",
+      "columnName": "companyName"
+    },
+    {
+      "displayName": "Industry",
+      "columnName": "industry"
+    },
+    {
+      "displayName": "Quantity",
+      "columnName": "quantity"
+    },
+    {
+      "displayName": "Action",
+      "columnName": ""
+    }
+  ];
 
   @ViewChild('grdStocks') grdStocks;
 
@@ -25,6 +49,7 @@ export class StockPortfolioListComponent implements OnInit {
   ngOnInit(): void {
     this.stockService.getAllStocks().subscribe(res => {
       this.stocks = res;
+      this.oldStocks = this.stocks;
     })
 
     this.stockService.arrStocksModified.subscribe(res => {
@@ -58,6 +83,13 @@ export class StockPortfolioListComponent implements OnInit {
       );
     }
   }
+
+  sortColumn(columnName) {
+    this.stockService.sortStocksArrayByColumn(this.stocks, columnName, this.isAsc);
+    this.isAsc = !this.isAsc;
+  }
+
+
 
   /* columnDefs = [
     {

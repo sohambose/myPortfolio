@@ -2,7 +2,9 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th scope="col" *ngFor="let column of gridColumns">{{column}}</th>
+                <th scope="col" *ngFor="let column of gridColumns" style="cursor: pointer;"
+                    onmouseover="this.style.textDecoration='underline';" onmouseout="this.style.textDecoration='none';"
+                    (click)="sortColumn(column.columnName)">{{column.displayName}}</th>
             </tr>
         </thead>
         <tbody>
