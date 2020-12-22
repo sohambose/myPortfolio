@@ -14,6 +14,8 @@ export class StockPortfolioListComponent implements OnInit {
   rowData: any;
   selectedStockID: any;
 
+  gridColumns: any[] = ['Symbol', 'Company Name', 'Industry', 'Quantity', 'Action']
+
   @ViewChild('grdStocks') grdStocks;
 
   constructor(private stockService: StockService, private router: Router,

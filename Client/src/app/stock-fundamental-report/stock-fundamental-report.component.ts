@@ -1,3 +1,5 @@
+import { ChartService } from './../_Services/chart.service';
+import { Observable } from 'rxjs';
 import { StockService } from './../_Services/Stock.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -56,11 +58,16 @@ export class StockFundamentalReportComponent implements OnInit {
 
   //------------------------------------------------- 
 
+  TestLabel: string;
+  TestgraphColor;
+  TestyAxisData: any[];
+  TestxAxisData: any[];
+
+  res: Observable<any>[];
+
 
   constructor(private activatedRoute: ActivatedRoute, private stockService: StockService,
-    private router: Router) { }
-
-
+    private router: Router, private chartService: ChartService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(r => {
@@ -116,32 +123,30 @@ export class StockFundamentalReportComponent implements OnInit {
   loadGraphData(res: any, reportType: number) {
     if (reportType == 1) {
       const arrRevenueData = res.filter(r => r.head == 'RevenueTotalCrores')[0].graphData;
-      this.drawGraph('Total Revenue', 'green', arrRevenueData.reverse(), this.xAxisFundamental, this.revenueChartCanvas.nativeElement);
+      this.chartVar = this.chartService.drawLineChart(this.xAxisFundamental, arrRevenueData.reverse(), 'Total Revenue', 'green', this.revenueChartCanvas.nativeElement);
 
       const arrNetProfitData = res.filter(r => r.head == 'NETProfit')[0].graphData;
-      this.drawGraph('Net Profit', 'blue', arrNetProfitData.reverse(), this.xAxisFundamental, this.netprofitChartCanvas.nativeElement);
+      this.chartVar = this.chartService.drawLineChart(this.xAxisFundamental, arrNetProfitData.reverse(), 'Net Profit', 'blue', this.netprofitChartCanvas.nativeElement);
 
       const arrdebtData = res.filter(r => r.head == 'Borrowings')[0].graphData;
-      this.drawGraph('Debt', 'red', arrdebtData.reverse(), this.xAxisFundamental, this.debtChartCanvas.nativeElement);
+      this.chartVar = this.chartService.drawLineChart(this.xAxisFundamental, arrdebtData.reverse(), 'Debt', 'red', this.debtChartCanvas.nativeElement);
 
       const arrROEData = res.filter(r => r.head == 'ROE')[0].graphData;
-      this.drawGraph('Return on Equity', '#33D5FF', arrROEData.reverse(), this.xAxisFundamental, this.roeChartCanvas.nativeElement);
+      this.chartVar = this.chartService.drawLineChart(this.xAxisFundamental, arrROEData.reverse(), 'Return on Equity', '#33D5FF', this.roeChartCanvas.nativeElement);
 
       const arrROCEData = res.filter(r => r.head == 'ROCE')[0].graphData;
-      this.drawGraph('Return on Capital Employed', 'blue', arrROCEData.reverse(), this.xAxisFundamental, this.roceChartCanvas.nativeElement);
+      this.chartVar = this.chartService.drawLineChart(this.xAxisFundamental, arrROCEData.reverse(), 'Return on Capital Employed', 'blue', this.roceChartCanvas.nativeElement);
 
     }
     else if (reportType == 2) {
-      console.log('Qtrly Data Graph----');
-      console.log(res);
       const arrSalesData = res.filter(r => r.narration == 'Sales')[0].graphData;
-      this.drawGraph('Quarterly Sales', 'green', arrSalesData.reverse(), this.xAxisQuarterly, this.QSalesChartCanvas.nativeElement);
+      this.chartVar = this.chartService.drawLineChart(this.xAxisQuarterly, arrSalesData.reverse(), 'Quarterly Sales', 'green', this.QSalesChartCanvas.nativeElement);
 
       const arrNetProfitdata = res.filter(r => r.narration == 'NetProfit')[0].graphData;
-      this.drawGraph('Quarterly Net Profit', 'green', arrNetProfitdata.reverse(), this.xAxisQuarterly, this.QNetProfitChartCanvas.nativeElement);
+      this.chartVar = this.chartService.drawLineChart(this.xAxisQuarterly, arrNetProfitdata.reverse(), 'Quarterly Net Profit', 'green', this.QNetProfitChartCanvas.nativeElement);
 
       const arrEBITdata = res.filter(r => r.narration == 'EBIT')[0].graphData;
-      this.drawGraph('Quarterly EBIT', 'green', arrEBITdata.reverse(), this.xAxisQuarterly, this.QEBITChartCanvas.nativeElement);
+      this.chartVar = this.chartService.drawLineChart(this.xAxisQuarterly, arrEBITdata.reverse(), 'Quarterly EBIT', 'green', this.QEBITChartCanvas.nativeElement);
     }
   }
 

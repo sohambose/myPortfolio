@@ -9,20 +9,18 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th scope="col">Symbol</th>
-                <th scope="col">Company Name</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Action</th>
+                <th scope="col" *ngFor="let column of gridColumns">{{column}}</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let stock of stocks">
                 <td scope="row">{{stock.stockSymbol}}</td>
                 <td scope="row">{{stock.companyName}}</td>
+                <td scope="row">{{stock.industry}}</td>
                 <td scope="row">{{stock.quantity}}</td>
                 <td scope="row">
-                    <span><button type="button" class="btn btn-dark btn-sm"
-                        (click)="onViewReport(stock.stockID)">View Details</button>&nbsp;&nbsp;<button type="button" class="btn btn-dark btn-sm"
+                    <span><button type="button" class="btn btn-dark btn-sm" (click)="onViewReport(stock.stockID)">View
+                            Details</button>&nbsp;&nbsp;<button type="button" class="btn btn-dark btn-sm"
                             (click)="onEdit(stock.stockID)">Edit</button>&nbsp;&nbsp;<button type="button"
                             class="btn btn-dark btn-sm" (click)="onDelete(stock.stockID)">Delete</button>
                     </span>
