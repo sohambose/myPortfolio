@@ -13,6 +13,7 @@ export class StockPortfolioListComponent implements OnInit {
   stocks: any[] = [];
   oldStocks: any[] = [];
   isAsc: boolean = true;
+  lastSortedColumn: string;
 
   rowData: any;
   selectedStockID: any;
@@ -20,23 +21,28 @@ export class StockPortfolioListComponent implements OnInit {
   gridColumns: any[] = [
     {
       "displayName": "Symbol",
-      "columnName": "stockSymbol"
+      "columnName": "stockSymbol",
+      "sortable": "true"
     },
     {
       "displayName": "Company Name",
-      "columnName": "companyName"
+      "columnName": "companyName",
+      "sortable": "true"
     },
     {
       "displayName": "Industry",
-      "columnName": "industry"
+      "columnName": "industry",
+      "sortable": "true"
     },
     {
       "displayName": "Quantity",
-      "columnName": "quantity"
+      "columnName": "quantity",
+      "sortable": "true"
     },
     {
       "displayName": "Action",
-      "columnName": ""
+      "columnName": "",
+      "sortable": "false"
     }
   ];
 
@@ -84,34 +90,15 @@ export class StockPortfolioListComponent implements OnInit {
     }
   }
 
-  sortColumn(columnName) {
-    this.stockService.sortStocksArrayByColumn(this.stocks, columnName, this.isAsc);
-    this.isAsc = !this.isAsc;
+  sortColumn(column) {
+    if (this.lastSortedColumn != column.columnName) {
+      this.isAsc = true;
+    }
+
+    if (column.sortable == 'true') {
+      this.stockService.sortStocksArrayByColumn(this.stocks, column.columnName, this.isAsc);
+      this.isAsc = !this.isAsc;
+      this.lastSortedColumn = column.columnName;
+    }
   }
-
-
-
-  /* columnDefs = [
-    {
-      field: 'stockSymbol', filter: true, sortable: true, checkboxSelection: true,
-      cellRenderer: 'btnCellRenderer',
-      cellRendererParams: {
-        clicked: function (field: any) {
-          alert(`${field} was clicked`);
-        }
-      },
-    },
-    { field: 'companyName', sortable: true },
-    { field: 'quantity', sortable: true }
-  ]; */
-
-  /* onRowClicked(event: any) {
-    this.selectedStockID = event.data.stockID;
-    this.router.navigate(['edit/' + this.selectedStockID], { relativeTo: this.activatedRoute });
-  } */
-
-  //onRowSelected(event: any) {
-  /* alert(this.grdStocks.api.getSelectedRows());
-  alert(this.grdStocks.api.getSelectedRows()[0].stockID); */
-  //} 
 }
