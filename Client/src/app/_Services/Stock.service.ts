@@ -49,6 +49,10 @@ export class StockService {
     this.arrStocksModified.next(arrStocks.slice());  //Notify change in array.....
   }
 
+  filterArrayForPagination(minIndex, maxIndex) {
+    this.arrStocksModified.next(this.arrStocks.slice(minIndex, maxIndex + 1));
+  }
+
   getStockByID(stockID: number) {
     return this.http.get(this.baseURL + '/api/Stock/' + stockID)
       .pipe(

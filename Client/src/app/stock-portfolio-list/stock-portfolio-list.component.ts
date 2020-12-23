@@ -15,7 +15,6 @@ export class StockPortfolioListComponent implements OnInit {
   isAsc: boolean = true;
   lastSortedColumn: string;
 
-  rowData: any;
   selectedStockID: any;
 
   gridColumns: any[] = [
@@ -46,6 +45,10 @@ export class StockPortfolioListComponent implements OnInit {
     }
   ];
 
+  arrPageNos: number[] = [];
+  totalItems: number;
+  ItemsPerPage: number = 10;
+
   @ViewChild('grdStocks') grdStocks;
 
   constructor(private stockService: StockService, private router: Router,
@@ -56,13 +59,29 @@ export class StockPortfolioListComponent implements OnInit {
     this.stockService.getAllStocks().subscribe(res => {
       this.stocks = res;
       this.oldStocks = this.stocks;
+      this.HandlePaginationForGrid();
     })
 
     this.stockService.arrStocksModified.subscribe(res => {
       this.stocks = res;
-      this.rowData = this.stocks;
     })
   }
+
+  HandlePaginationForGrid() {
+    this.totalItems = this.stocks.length;
+    var NoPages = Math.ceil(this.totalItems / this.ItemsPerPage);
+    for (let i = 1; i <= NoPages; i++) {
+      this.arrPageNos.push(i);
+    }
+    this.Paginate(1);
+  }
+
+  Paginate(pageNo) {
+    var minIndex: number = (this.ItemsPerPage * pageNo) - this.ItemsPerPage;
+    var maxIndex: number = minIndex + this.ItemsPerPage - 1;
+    this.stockService.filterArrayForPagination(minIndex, maxIndex);
+  }
+
   onViewReport(stockID) {
     console.log(stockID);
     this.selectedStockID = stockID;

@@ -1,5 +1,5 @@
 <div class="container">
-    <table class="table table-bordered">
+    <table class="table table-bordered table-sm">
         <thead>
             <tr>
                 <th scope="col" *ngFor="let column of gridColumns" style="cursor: pointer;"
@@ -22,5 +22,19 @@
                 </td>
             </tr>
         </tbody>
+    </table>
+    <table>
+        <tr>
+            <td colspan="5">
+                <table class="table-sm">
+                    <tr>
+                        <td *ngFor="let pageNo of arrPageNos">
+                            <label style="cursor: pointer; text-decoration: underline;"
+                                (click)="Paginate(pageNo)">{{pageNo}} </label>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
     </table>
 </div>
