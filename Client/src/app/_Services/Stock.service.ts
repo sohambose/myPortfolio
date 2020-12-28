@@ -19,6 +19,9 @@ export class StockService {
 
   arrYAxisData: any[] = [];
 
+  typeAheadStockSearch: any;
+
+
   //-----------------------------Stock Methods-----------------------------------
   getAllStocks() {
     return this.http.get(this.baseURL + '/api/Stock')
@@ -52,6 +55,12 @@ export class StockService {
   filterArrayForPagination(minIndex, maxIndex) {
     this.arrStocksModified.next(this.arrStocks.slice(minIndex, maxIndex + 1));
   }
+
+  searchArraybyStockSymbol(stockSymbol) {
+    this.typeAheadStockSearch = stockSymbol.toUpperCase();
+    this.arrStocksModified.next(this.arrStocks.filter(s => s.stockSymbol.includes(this.typeAheadStockSearch)));
+  }
+
 
   getStockByID(stockID: number) {
     return this.http.get(this.baseURL + '/api/Stock/' + stockID)

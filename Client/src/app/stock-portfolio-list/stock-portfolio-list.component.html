@@ -29,8 +29,8 @@
                 <table class="table-sm">
                     <tr>
                         <td *ngFor="let pageNo of arrPageNos">
-                            <label style="cursor: pointer; text-decoration: underline;"
-                                (click)="Paginate(pageNo)">{{pageNo}} </label>
+                            <label style="cursor: pointer; text-decoration: underline; "
+                                (click)="Paginate(pageNo,$event.target)">{{pageNo}} </label>
                         </td>
                     </tr>
                 </table>

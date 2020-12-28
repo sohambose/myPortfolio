@@ -24,6 +24,11 @@ export class ExcelUploadComponent implements OnInit {
   selectedStockID: any;
 
 
+  isShowTypeAheadDiv: boolean = false;
+  typedText: any;
+  lstTAStocks: any[] = [];
+
+
   @ViewChild('uploadForm', { static: true }) uploadForm: NgForm;
   @ViewChild('fileFundamental', { static: true }) fileFundamental: ElementRef;
 
@@ -32,7 +37,13 @@ export class ExcelUploadComponent implements OnInit {
   ngOnInit(): void {
     this.stockService.getAllStocks().subscribe(res => {
       this.lstStocks = res;
+      this.lstTAStocks = this.lstStocks;
       this.selectedStockID = -1;
+      this.typedText = '';
+    });
+
+    this.stockService.arrStocksModified.subscribe(res => {
+      this.lstTAStocks = res;
     })
   }
 
@@ -49,21 +60,6 @@ export class ExcelUploadComponent implements OnInit {
     this.IsFileSelected = true;
   }
 
-  /*  onUploadClick() {
-     if (this.selectedStockID < 0) {
-       alert('Select a stock from List');
-     }
-     else {
-       this.uploadService.uploadFile(this.fileToUpload, this.selectedStockID).subscribe(res => {
-         console.log(res);
-         alert("File Uploaded and Processed succesfully!");
-         this.fileFundamental.nativeElement.value = "";
-         this.lblFileUpload = "Select File";
-         this.selectedStockID = -1;
-       })
-     } 
-   }*/
-
   onSubmit(uploadform: NgForm) {
     if (this.selectedStockID < 0) {
       alert('Select a stock from List');
@@ -75,8 +71,38 @@ export class ExcelUploadComponent implements OnInit {
         this.fileFundamental.nativeElement.value = "";
         this.lblFileUpload = "Select File";
         this.selectedStockID = -1;
+        this.typedText = '';
       })
     }
   }
+
+
+  //-----------------------Typeahead Methods----------------------------------------
+  onClicktypeAhead(event: Event) {
+    this.isShowTypeAheadDiv = true;
+  }
+
+  onKeyUp(event: any) {
+    if (event.keyCode == 27) {
+      this.onTypeAheadBlur();
+    }
+    else {
+      this.isShowTypeAheadDiv = true;
+      console.log(this.typedText);
+      this.stockService.searchArraybyStockSymbol(this.typedText);
+    }
+  }
+
+  onTypeAheadBlur() {
+    this.isShowTypeAheadDiv = false;
+  }
+
+  onItemSelected(event: any) {
+    console.log(event);
+    this.typedText = event.stockSymbol;
+    this.selectedStockID = event.stockID;
+    this.isShowTypeAheadDiv = false;
+  }
+  //----------------------------------------------------------------------------------
 
 }

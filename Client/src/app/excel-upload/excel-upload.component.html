@@ -1,11 +1,32 @@
-<form #uploadForm="ngForm" (ngSubmit)="onSubmit(uploadForm)">
+<form #uploadForm="ngForm" (ngSubmit)="onSubmit(uploadForm)" autocomplete="off">
     <div id="StockSelect">
         <label for="ddlSelect">Select Stock:&nbsp;</label>
-        <select id="ddlSelect" (change)="onStockSelectionChange()" name="ddlSelectedStock" [(ngModel)]="selectedStockID"
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" list="lstStocks" name="Searchstocks" id="Searchstocks"
+                            (keyup)="onKeyUp($event)" (dblclick)="onClicktypeAhead($event)" [(ngModel)]="typedText"
+                            style="position:absolute; width: 200px;background-color:beige"><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div [style.display]="isShowTypeAheadDiv ? 'block' : 'none'"
+                            style="height: 150px; width: 200px;overflow: auto; border: grey; border-style: groove; padding: 5px;">
+                            <div *ngFor="let stock of lstTAStocks" (click)="onItemSelected(stock)">
+                                <label>{{stock.stockSymbol}}</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--  <select id="ddlSelect" (change)="onStockSelectionChange()" name="ddlSelectedStock" [(ngModel)]="selectedStockID"
             ngModel>
             <option value="-1">Choose Stock</option>
             <option *ngFor="let stock of lstStocks" value="{{stock.stockID}}">{{stock.stockSymbol}}</option>
-        </select>
+        </select> -->
     </div>
     <div>
         Upload Type:&nbsp;

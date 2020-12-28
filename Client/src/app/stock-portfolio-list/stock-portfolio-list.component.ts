@@ -76,7 +76,8 @@ export class StockPortfolioListComponent implements OnInit {
     this.Paginate(1);
   }
 
-  Paginate(pageNo) {
+  Paginate(pageNo, labelElement = null) {
+    console.log(labelElement);
     var minIndex: number = (this.ItemsPerPage * pageNo) - this.ItemsPerPage;
     var maxIndex: number = minIndex + this.ItemsPerPage - 1;
     this.stockService.filterArrayForPagination(minIndex, maxIndex);
