@@ -1,6 +1,14 @@
 <div class="container">
+    <div>
+        <button type="button" class="btn btn-info btn-sm" (click)="onCompare()">Compare</button>
+    </div>
     <table class="table table-bordered table-sm">
         <thead>
+            <!--  <tr>
+                <th *ngFor="let column of gridColumns">
+                    <input type="text" id="txtSearch">
+                </th>
+            </tr> -->
             <tr>
                 <th scope="col" *ngFor="let column of gridColumns" style="cursor: pointer;"
                     onmouseover="this.style.textDecoration='underline';" onmouseout="this.style.textDecoration='none';"
@@ -9,6 +17,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let stock of stocks">
+                <td scope="row"><input type="checkbox" (click)="onSelectRow(stock.stockID,$event)"></td>
                 <td scope="row">{{stock.stockSymbol}}</td>
                 <td scope="row">{{stock.companyName}}</td>
                 <td scope="row">{{stock.industry}}</td>

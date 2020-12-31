@@ -19,6 +19,11 @@ export class StockPortfolioListComponent implements OnInit {
 
   gridColumns: any[] = [
     {
+      "displayName": "Select",
+      "columnName": "Select",
+      "sortable": "false"
+    },
+    {
       "displayName": "Symbol",
       "columnName": "stockSymbol",
       "sortable": "true"
@@ -48,6 +53,9 @@ export class StockPortfolioListComponent implements OnInit {
   arrPageNos: number[] = [];
   totalItems: number;
   ItemsPerPage: number = 10;
+
+
+  arrselectedStockIDs: string[] = [];
 
   @ViewChild('grdStocks') grdStocks;
 
@@ -120,5 +128,26 @@ export class StockPortfolioListComponent implements OnInit {
       this.isAsc = !this.isAsc;
       this.lastSortedColumn = column.columnName;
     }
+  }
+
+  onSelectRow(stockID: string, event: any) {
+    console.log(event.target.checked);
+    if (event.target.checked == false) {
+      var selectedStockIndex = this.arrselectedStockIDs.indexOf(stockID);
+      this.arrselectedStockIDs.splice(selectedStockIndex, 1);
+    }
+    if (event.target.checked &&
+      !this.arrselectedStockIDs.includes(stockID)) {
+      this.arrselectedStockIDs.push(stockID);
+    }
+    console.log(this.arrselectedStockIDs);
+  }
+
+  onCompare() {
+    console.log(this.arrselectedStockIDs);
+    console.log(this.arrselectedStockIDs.toString());
+    this.stockService.CompareStocks(this.arrselectedStockIDs.toString()).subscribe(res => {
+      console.log(res);
+    });
   }
 }

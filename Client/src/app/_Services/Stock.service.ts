@@ -187,4 +187,20 @@ export class StockService {
 
     return arrRetVal;
   }
+
+  CompareStocks(SelectedStocks: string) {
+    console.log("In Service: " + SelectedStocks);
+    return this.http.get(this.baseURL + '/api/StockFundamentalAttribute/compare/' + SelectedStocks)
+      .pipe(
+        map(responseData => {
+          const arrSFA: any[] = [];
+          for (const key in responseData) {
+            if (responseData.hasOwnProperty(key)) {
+              arrSFA.push({ ...responseData[key], id: key });
+            }
+          }
+          this.arrStockFundamentalAttributes = arrSFA;
+          return this.arrStockFundamentalAttributes;
+        }));
+  }
 }
