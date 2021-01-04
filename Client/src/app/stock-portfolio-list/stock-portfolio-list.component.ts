@@ -15,7 +15,7 @@ export class StockPortfolioListComponent implements OnInit {
   isAsc: boolean = true;
   lastSortedColumn: string;
 
-  selectedStockID: any;
+  selectedStockID: any; 
 
   gridColumns: any[] = [
     {
@@ -149,5 +149,9 @@ export class StockPortfolioListComponent implements OnInit {
     this.stockService.CompareStocks(this.arrselectedStockIDs.toString()).subscribe(res => {
       console.log(res);
     });
+  }
+
+  onSearchKeyUp(event, field: string) {    
+    this.stockService.searchArraybyAnyField(event.target.value, field);
   }
 }

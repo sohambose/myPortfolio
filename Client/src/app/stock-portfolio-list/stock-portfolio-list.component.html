@@ -4,15 +4,22 @@
     </div>
     <table class="table table-bordered table-sm">
         <thead>
-            <!--  <tr>
-                <th *ngFor="let column of gridColumns">
-                    <input type="text" id="txtSearch">
-                </th>
-            </tr> -->
             <tr>
-                <th scope="col" *ngFor="let column of gridColumns" style="cursor: pointer;"
-                    onmouseover="this.style.textDecoration='underline';" onmouseout="this.style.textDecoration='none';"
-                    (click)="sortColumn(column)">{{column.displayName}}</th>
+                <th scope="col" *ngFor="let column of gridColumns">
+                    <label style="cursor: pointer;" onmouseover="this.style.textDecoration='underline';"
+                        onmouseout="this.style.textDecoration='none';"
+                        (click)="sortColumn(column)">{{column.displayName}}</label>
+                </th>
+            </tr>
+            <tr>
+                <th>&nbsp;</th>
+                <th><input type="text" id="txtSymbol" (keyup)="onSearchKeyUp($event,'stockSymbol')">
+                </th>
+                <th><input type="text" id="txtCompanyName" (keyup)="onSearchKeyUp($event,'companyName')"></th>
+                <th><input type="text" id="txtIndustry" (keyup)="onSearchKeyUp($event,'industry')">
+                </th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
             </tr>
         </thead>
         <tbody>

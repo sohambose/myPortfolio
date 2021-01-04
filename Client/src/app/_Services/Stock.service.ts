@@ -203,4 +203,23 @@ export class StockService {
           return this.arrStockFundamentalAttributes;
         }));
   }
+
+  searchArraybyAnyField(searchString, searchField) {
+    console.log('---In Service----');
+    console.log(searchString);
+    console.log(searchField);
+
+    if (searchField == 'stockSymbol') {
+      this.arrStocksModified.next(this.arrStocks.filter(s => s.stockSymbol.toUpperCase().includes(searchString.toUpperCase())));
+    }
+    else if (searchField == 'companyName') {
+      console.log('2');
+      this.arrStocksModified.next(this.arrStocks.filter(s => s.companyName.toUpperCase().includes(searchString.toUpperCase())));
+    }
+    else if (searchField == 'industry') {
+      console.log('3');
+      this.arrStocksModified.next(this.arrStocks.filter(s => s.industry.toUpperCase().includes(searchString.toUpperCase())));
+    }
+
+  }
 }
