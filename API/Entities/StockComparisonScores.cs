@@ -5,6 +5,7 @@ namespace API.Entities
     public class StockComparisonScores
     {
         public int StockComparisonScoresID { get; set; }
+        public string Statement { get; set; }
         public string Head { get; set; }
         public int stockID { get; set; }
         public Stock stock { get; set; }

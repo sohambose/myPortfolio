@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { StockEntryComponent } from './stock-entry/stock-entry.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { StockComparisonReportComponent } from './stock-comparison-report/stock-comparison-report.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -13,10 +14,12 @@ const routes: Routes = [
     path: 'portfolio', component: StockLandingComponent, children: [
       { path: 'edit', component: StockEntryComponent },
       { path: 'edit/:stockID', component: StockEntryComponent },
-      { path: 'stock-fundamentals/:stockID', component: StockFundamentalReportComponent },
+      { path: 'stock-fundamentals/:stockID', component: StockFundamentalReportComponent }
     ]
   },
-  { path: 'excel-upload', component: ExcelUploadComponent }
+  { path: 'excel-upload', component: ExcelUploadComponent },
+  { path: 'compare-stocks/:stockIDList', component: StockComparisonReportComponent }
+
 ];
 
 @NgModule({

@@ -17,6 +17,8 @@ export class StockService {
   arrStockFundamentalAttributes: any[] = [];
   arrStockQuarterlyData: any[] = [];
 
+  arrStockCompareDetails: any[] = [];
+
   arrYAxisData: any[] = [];
 
   typeAheadStockSearch: any;
@@ -205,21 +207,31 @@ export class StockService {
   }
 
   searchArraybyAnyField(searchString, searchField) {
-    console.log('---In Service----');
-    console.log(searchString);
-    console.log(searchField);
-
     if (searchField == 'stockSymbol') {
       this.arrStocksModified.next(this.arrStocks.filter(s => s.stockSymbol.toUpperCase().includes(searchString.toUpperCase())));
     }
     else if (searchField == 'companyName') {
-      console.log('2');
       this.arrStocksModified.next(this.arrStocks.filter(s => s.companyName.toUpperCase().includes(searchString.toUpperCase())));
     }
     else if (searchField == 'industry') {
-      console.log('3');
       this.arrStocksModified.next(this.arrStocks.filter(s => s.industry.toUpperCase().includes(searchString.toUpperCase())));
     }
-
   }
+
+  //Get Stock Comparison Detailed Data
+  getStockComparisonDetailedData() {
+    return this.http.get(this.baseURL + '/api/StockFundamentalAttribute/compareDetails')
+      .pipe(
+        map(responseData => {
+          const arrSFA: any[] = [];
+          for (const key in responseData) {
+            if (responseData.hasOwnProperty(key)) {
+              arrSFA.push({ ...responseData[key], id: key });
+            }
+          }
+          this.arrStockCompareDetails = arrSFA;
+          return this.arrStockCompareDetails;
+        }));
+  }
+
 }

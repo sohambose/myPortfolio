@@ -1,0 +1,94 @@
+<table class="table table-bordered table-sm">
+    <thead>
+        <tr>
+            <th>Stock Name</th>
+            <th>Stock Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let stockreport of stockReport">
+            <td scope="row">{{stockreport.stockName}}</td>
+            <td scope="row">{{stockreport.score}}</td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<div>
+    <button type="button" class="btn btn-dark btn-sm"
+        (click)="onViewDetailedReport()">{{showHideDetailedReportCaption}}</button>
+</div>
+<br>
+<div *ngIf="isShowDetailedReport">
+    <div class="row" id="divQtrlyDataDetails" [style.display]="!isNoDataFound ? 'block' : 'none'">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <p><small><b> Detailed Comparison Report : </b></small><br></p>
+                </div>
+                <div class="col-sm-12">
+                    <table class="table table-sm table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col"><small>Head</small></th>
+                                <th scope="col"><small>Stock Symbol</small></th>
+                                <th scope="col"><small>Observation Value Type</small></th>
+                                <th scope="col"><small>Observation Value</small></th>
+                                <th scope="col"><small>Score </small></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" class="table-primary">
+                                    <small><b>Profit & Loss</b></small>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let scs of stockPL">
+                                <td scope="row"><small>{{scs.head}}</small></td>
+                                <td scope="row"><small>{{scs.stockSymbol}}</small></td>
+                                <td scope="row"><small>{{scs.observationValueType}}</small></td>
+                                <td scope="row"><small>{{scs.observationValue}}</small></td>
+                                <td scope="row"><small>{{scs.stockScore}}</small></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="table-primary">
+                                    <small><b>Balance Sheet</b></small>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let scs of stockBalanceSheet">
+                                <td scope="row"><small>{{scs.head}}</small></td>
+                                <td scope="row"><small>{{scs.stockSymbol}}</small></td>
+                                <td scope="row"><small>{{scs.observationValueType}}</small></td>
+                                <td scope="row"><small>{{scs.observationValue}}</small></td>
+                                <td scope="row"><small>{{scs.stockScore}}</small></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="table-primary">
+                                    <small><b>Cash Flow</b></small>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let scs of stockCashFlow">
+                                <td scope="row"><small>{{scs.head}}</small></td>
+                                <td scope="row"><small>{{scs.stockSymbol}}</small></td>
+                                <td scope="row"><small>{{scs.observationValueType}}</small></td>
+                                <td scope="row"><small>{{scs.observationValue}}</small></td>
+                                <td scope="row"><small>{{scs.stockScore}}</small></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="table-primary">
+                                    <small><b>Ratios</b></small>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let scs of stockRatios">
+                                <td scope="row"><small>{{scs.head}}</small></td>
+                                <td scope="row"><small>{{scs.stockSymbol}}</small></td>
+                                <td scope="row"><small>{{scs.observationValueType}}</small></td>
+                                <td scope="row"><small>{{scs.observationValue}}</small></td>
+                                <td scope="row"><small>{{scs.stockScore}}</small></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

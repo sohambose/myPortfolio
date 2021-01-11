@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
 import { ExcelUploadComponent } from './excel-upload/excel-upload.component';
 import { StockFundamentalReportComponent } from './stock-fundamental-report/stock-fundamental-report.component';
+import { StockComparisonReportComponent } from './stock-comparison-report/stock-comparison-report.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { StockFundamentalReportComponent } from './stock-fundamental-report/stoc
     HomeComponent,
     StockLandingComponent,
     ExcelUploadComponent,
-    StockFundamentalReportComponent    
+    StockFundamentalReportComponent,
+    StockComparisonReportComponent    
   ],
   imports: [
     BrowserModule,
