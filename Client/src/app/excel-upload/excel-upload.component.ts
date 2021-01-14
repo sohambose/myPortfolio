@@ -28,6 +28,8 @@ export class ExcelUploadComponent implements OnInit {
   typedText: any;
   lstTAStocks: any[] = [];
 
+  toolTipStr = "<li>Percentage with % symbol Not allowed</li><li>Blank fields are allowed</li><li>Gap betwwen rows not allowed</li>";
+
 
   @ViewChild('uploadForm', { static: true }) uploadForm: NgForm;
   @ViewChild('fileFundamental', { static: true }) fileFundamental: ElementRef;

@@ -22,11 +22,6 @@
                 </tr>
             </table>
         </div>
-        <!--  <select id="ddlSelect" (change)="onStockSelectionChange()" name="ddlSelectedStock" [(ngModel)]="selectedStockID"
-            ngModel>
-            <option value="-1">Choose Stock</option>
-            <option *ngFor="let stock of lstStocks" value="{{stock.stockID}}">{{stock.stockSymbol}}</option>
-        </select> -->
     </div>
     <div>
         Upload Type:&nbsp;
@@ -41,8 +36,11 @@
         <label for="fileFundamental" class="custom-file-label">{{lblFileUpload}}</label>
         <input type="file" id="fileFundamental" class="custom-file-input" #fileFundamental
             (change)="handleFileInput($event.target.files)">
-        <br /><br />
-        <button type="submit" class="btn btn-dark btn-sm"
-            [disabled]="(!IsFileSelected && selectedStockID<0)">Upload</button> &nbsp;&nbsp;
+        <br /> <br />
+        <div>
+            <button type="submit" class="btn btn-dark btn-sm" style="float: left;"
+                [disabled]="(!IsFileSelected && selectedStockID<0)">Upload</button>
+            <app-help-tooltip style="float: left;" [ToolTipHTML]="toolTipStr"></app-help-tooltip>
+        </div>
     </div>
 </form>
