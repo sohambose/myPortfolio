@@ -1,4 +1,4 @@
-import { StockService } from './../_Services/Stock.service';
+import { StockService } from '../EquityServices/Stock.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 

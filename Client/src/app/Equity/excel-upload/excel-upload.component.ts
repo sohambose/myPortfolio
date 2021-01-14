@@ -1,6 +1,6 @@
-import { StockService } from './../_Services/Stock.service';
+import { StockService } from '../EquityServices/Stock.service';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { UploadService } from '../_Services/upload.service';
+import { UploadService } from '../EquityServices/upload.service';
 import { Form, NgForm } from '@angular/forms';
 
 

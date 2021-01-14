@@ -10,7 +10,6 @@ export class HelpTooltipComponent implements OnInit {
   isShowToolTipDiv: boolean = false;
 
   @Input() ToolTipHTML;
-  toolTipStr = "<p><b>Hello</b></p>"
 
   constructor() { }
 

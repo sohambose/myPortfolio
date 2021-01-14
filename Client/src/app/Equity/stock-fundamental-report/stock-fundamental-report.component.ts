@@ -1,6 +1,6 @@
-import { ChartService } from './../_Services/chart.service';
+import { ChartService } from '../EquityServices/chart.service';
 import { Observable } from 'rxjs';
-import { StockService } from './../_Services/Stock.service';
+import { StockService } from '../EquityServices/Stock.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Chart } from 'chart.js';
