@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using API.BLL;
 using API.Data;
 using API.DTOS;
 using API.Entities;
@@ -12,17 +13,19 @@ using CsvHelper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.Extensions.Configuration;
 
 namespace API.Controllers
 {
     public class FileUploadsController : BaseAPIController
     {
         private readonly DataContext _context;
+        private readonly IConfiguration _configuration;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(typeof(FileUploadsController));
-        public FileUploadsController(DataContext context)
+        public FileUploadsController(DataContext context, IConfiguration configuration)
         {
             this._context = context;
+            this._configuration = configuration;
         }
 
         [HttpPost]
@@ -43,7 +46,13 @@ namespace API.Controllers
 
             if (file.Length > 0)
             {
-                filePath = @"D:\Projects\PersonalPortfolioManagement\myPortfolio\API\Files\" + file.FileName.ToString() + "_" + DateTime.Now.ToFileTime();
+                string PhysicalAppPath = _configuration["AppSettings:PhysicalAppPath"];
+                string userFiles = _configuration["AppSettings:userUploadedFiles"];
+                string fileNamingConv = DateTime.Now.ToFileTime() + "_" + file.FileName.ToString();
+
+                //filePath = @"D:\Projects\PersonalPortfolioManagement\myPortfolio\API\Files\" + file.FileName.ToString() + "_" + DateTime.Now.ToFileTime();
+                filePath = Path.Combine(PhysicalAppPath, userFiles, fileNamingConv);
+
                 FileInfo fileInfo = new FileInfo(filePath);
                 if (fileInfo.Exists)
                     fileInfo.Delete();
@@ -53,64 +62,87 @@ namespace API.Controllers
                 }
             }
 
+
             if (uploadType == 1)
-                SaveCSVDataYearly(filePath, stockID);
-            else if (uploadType == 2)
-                SaveCSVDataQuarterly(filePath, stockID);
-            return Ok();
-        }
-
-        private void SaveCSVDataYearly(string filePath, int stockID)
-        {
-            try
             {
-                int roundingPlaces = 2;
-                TextReader reader = new StreamReader(filePath);
-                var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
-                IEnumerable<StockFundamentalAttributeCSV> lstrecords = csvReader.GetRecords<StockFundamentalAttributeCSV>();
-
+                //---Delete stock Data Before inserting--
                 _context.StockFundamentalAttributes.RemoveRange(_context.StockFundamentalAttributes.Where(sfa => sfa.stockID == stockID));
                 _context.SaveChanges();
 
                 List<StockFundamentalAttributes> lstSFA = new List<StockFundamentalAttributes>();
-
-
-                foreach (StockFundamentalAttributeCSV csvitem in lstrecords)
-                {
-                    StockFundamentalAttributes sfaObj = new StockFundamentalAttributes();
-
-                    sfaObj.stockID = stockID;
-
-                    sfaObj.Statement = csvitem.Statement;
-                    sfaObj.Head = csvitem.Head;
-
-                    sfaObj.Y0 = string.IsNullOrEmpty(csvitem.Y0) ? 0 : decimal.Round(decimal.Parse(csvitem.Y0), roundingPlaces);
-                    sfaObj.Y1 = string.IsNullOrEmpty(csvitem.Y1) ? 0 : decimal.Round(decimal.Parse(csvitem.Y1), roundingPlaces);
-                    sfaObj.Y2 = string.IsNullOrEmpty(csvitem.Y2) ? 0 : decimal.Round(decimal.Parse(csvitem.Y2), roundingPlaces);
-                    sfaObj.Y3 = string.IsNullOrEmpty(csvitem.Y3) ? 0 : decimal.Round(decimal.Parse(csvitem.Y3), roundingPlaces);
-                    sfaObj.Y4 = string.IsNullOrEmpty(csvitem.Y4) ? 0 : decimal.Round(decimal.Parse(csvitem.Y4), roundingPlaces);
-                    sfaObj.Y5 = string.IsNullOrEmpty(csvitem.Y5) ? 0 : decimal.Round(decimal.Parse(csvitem.Y5), roundingPlaces);
-                    sfaObj.Y6 = string.IsNullOrEmpty(csvitem.Y6) ? 0 : decimal.Round(decimal.Parse(csvitem.Y6), roundingPlaces);
-                    sfaObj.Y7 = string.IsNullOrEmpty(csvitem.Y7) ? 0 : decimal.Round(decimal.Parse(csvitem.Y7), roundingPlaces);
-                    sfaObj.Y8 = string.IsNullOrEmpty(csvitem.Y8) ? 0 : decimal.Round(decimal.Parse(csvitem.Y8), roundingPlaces);
-                    sfaObj.Y9 = string.IsNullOrEmpty(csvitem.Y9) ? 0 : decimal.Round(decimal.Parse(csvitem.Y9), roundingPlaces);
-
-                    sfaObj.RecordTimeStamp = DateTime.Now;
-                    CalculateValues(sfaObj);
-
-                    lstSFA.Add(sfaObj);
-                }
+                CSVDataProcessor csvDataProcessor = new CSVDataProcessor();
+                lstSFA = csvDataProcessor.ProcessYearlyCSVData(filePath, stockID);
 
                 _context.StockFundamentalAttributes.AddRange(lstSFA);
                 _context.SaveChanges();
             }
-            catch (Exception ex)
+            else if (uploadType == 2)
             {
-                log.Error(ex.Message);
+                _context.StockQuarterlyData.RemoveRange(_context.StockQuarterlyData.Where(sfa => sfa.stockID == stockID));
+                _context.SaveChanges();
+
+                List<StockQuarterlyData> lstSQD = new List<StockQuarterlyData>();
+                CSVDataProcessor csvDataProcessor = new CSVDataProcessor();
+                lstSQD = csvDataProcessor.ProcessQuarterlyCSVData(filePath, stockID);
+
+                _context.StockQuarterlyData.AddRange(lstSQD);
+                _context.SaveChanges();
             }
+
+            return Ok();
         }
 
-        private void CalculateValues(StockFundamentalAttributes sfa)
+        /*  private void SaveCSVDataYearly(string filePath, int stockID)
+         {
+             try
+             {
+                 int roundingPlaces = 2;
+                 TextReader reader = new StreamReader(filePath);
+                 var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
+                 IEnumerable<StockFundamentalAttributeCSV> lstrecords = csvReader.GetRecords<StockFundamentalAttributeCSV>();
+
+                 //_context.StockFundamentalAttributes.RemoveRange(_context.StockFundamentalAttributes.Where(sfa => sfa.stockID == stockID));
+                 //_context.SaveChanges();
+
+                 List<StockFundamentalAttributes> lstSFA = new List<StockFundamentalAttributes>();
+
+
+                 foreach (StockFundamentalAttributeCSV csvitem in lstrecords)
+                 {
+                     StockFundamentalAttributes sfaObj = new StockFundamentalAttributes();
+
+                     sfaObj.stockID = stockID;
+
+                     sfaObj.Statement = csvitem.Statement;
+                     sfaObj.Head = csvitem.Head;
+
+                     sfaObj.Y0 = string.IsNullOrEmpty(csvitem.Y0) ? 0 : decimal.Round(decimal.Parse(csvitem.Y0), roundingPlaces);
+                     sfaObj.Y1 = string.IsNullOrEmpty(csvitem.Y1) ? 0 : decimal.Round(decimal.Parse(csvitem.Y1), roundingPlaces);
+                     sfaObj.Y2 = string.IsNullOrEmpty(csvitem.Y2) ? 0 : decimal.Round(decimal.Parse(csvitem.Y2), roundingPlaces);
+                     sfaObj.Y3 = string.IsNullOrEmpty(csvitem.Y3) ? 0 : decimal.Round(decimal.Parse(csvitem.Y3), roundingPlaces);
+                     sfaObj.Y4 = string.IsNullOrEmpty(csvitem.Y4) ? 0 : decimal.Round(decimal.Parse(csvitem.Y4), roundingPlaces);
+                     sfaObj.Y5 = string.IsNullOrEmpty(csvitem.Y5) ? 0 : decimal.Round(decimal.Parse(csvitem.Y5), roundingPlaces);
+                     sfaObj.Y6 = string.IsNullOrEmpty(csvitem.Y6) ? 0 : decimal.Round(decimal.Parse(csvitem.Y6), roundingPlaces);
+                     sfaObj.Y7 = string.IsNullOrEmpty(csvitem.Y7) ? 0 : decimal.Round(decimal.Parse(csvitem.Y7), roundingPlaces);
+                     sfaObj.Y8 = string.IsNullOrEmpty(csvitem.Y8) ? 0 : decimal.Round(decimal.Parse(csvitem.Y8), roundingPlaces);
+                     sfaObj.Y9 = string.IsNullOrEmpty(csvitem.Y9) ? 0 : decimal.Round(decimal.Parse(csvitem.Y9), roundingPlaces);
+
+                     sfaObj.RecordTimeStamp = DateTime.Now;
+                     CalculateValues(sfaObj);
+
+                     lstSFA.Add(sfaObj);
+                 }
+
+                 _context.StockFundamentalAttributes.AddRange(lstSFA);
+                 _context.SaveChanges();
+             }
+             catch (Exception ex)
+             {
+                 log.Error(ex.Message);
+             }
+         } */
+
+        /* private void CalculateValues(StockFundamentalAttributes sfa)
         {
             log.Debug("Processing " + sfa.Head);
             if (sfa.Head.ToUpper().Equals("GROSSPROFITMARGIN") || sfa.Head.ToUpper().Equals("NETPROFITPERCENTAGE")
@@ -141,9 +173,9 @@ namespace API.Controllers
                 sfa.observationValueType = "CAGR";
                 sfa.observationValue = Convert.ToDecimal(Value);
             }
-        }
+        } */
 
-        private void SaveCSVDataQuarterly(string filePath, int stockID)
+        /* private void SaveCSVDataQuarterly(string filePath, int stockID)
         {
             try
             {
@@ -275,7 +307,7 @@ namespace API.Controllers
             }
         }
 
-
+ */
         #region <Commented>
         /* //----This uses EPPlus-------
          * public DataTable ReadExcelToTable(string filePath) 

@@ -49,10 +49,11 @@ namespace API.Controllers
             {
                 isAddNew = true;
                 stockObjSave = new Stock();
-
             }
             else
+            {
                 isAddNew = false;
+            }
 
             stockObjSave.stockSymbol = stockObjParam.stockSymbol;
             stockObjSave.companyName = stockObjParam.companyName;
