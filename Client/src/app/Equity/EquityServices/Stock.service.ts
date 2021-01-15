@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class StockService {
 
   constructor(private http: HttpClient) { }
 
-  baseURL: string = 'https://localhost:5001';
+  baseURL: string = environment.baseAPIURL;
   arrStocks: any[] = [];
   arrStocksModified = new Subject<any[]>();
 
