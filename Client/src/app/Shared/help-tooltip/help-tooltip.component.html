@@ -1,5 +1,6 @@
 <div>
-    <button class="btn btn-link" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">?</button>
+    <button class="btn btn-link" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()"><i
+            class="bi bi-patch-question-fill"></i></button>
     <div *ngIf="isShowToolTipDiv"
         style="border-color: lightgray; border-style: ridge; border-radius: 15px; text-align: left;"
         [innerHtml]="ToolTipHTML">

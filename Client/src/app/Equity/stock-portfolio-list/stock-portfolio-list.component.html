@@ -1,6 +1,7 @@
 <div class="container">
     <div>
-        <button type="button" class="btn btn-info btn-sm" (click)="onCompare()">Compare</button>
+        <button type="button" class="btn btn-info btn-sm" (click)="onCompare()"><i
+                class="bi bi-arrow-left-right"></i>&nbsp;Compare</button><br /><br>
     </div>
     <table class="table table-bordered table-sm">
         <thead>
@@ -28,7 +29,7 @@
                 <td scope="row">{{stock.stockSymbol}}</td>
                 <td scope="row">{{stock.companyName}}</td>
                 <td scope="row">{{stock.industry}}</td>
-                <td scope="row">{{stock.quantity}}</td>               
+                <td scope="row">{{stock.quantity}}</td>
                 <td scope="row">
                     <span><button type="button" class="btn btn-dark btn-sm" (click)="onViewReport(stock.stockID)">View
                             Details</button>&nbsp;&nbsp;<button type="button" class="btn btn-dark btn-sm"
