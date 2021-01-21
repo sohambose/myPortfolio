@@ -1,46 +1,50 @@
-<form #uploadForm="ngForm" (ngSubmit)="onSubmit(uploadForm)" autocomplete="off">
-    <div id="StockSelect">
-        <label for="ddlSelect">Select Stock:&nbsp;</label>
-        <div>
-            <table>
-                <tr>
-                    <td>
-                        <input type="text" list="lstStocks" name="Searchstocks" id="Searchstocks"
-                            (keyup)="onKeyUp($event)" (dblclick)="onClicktypeAhead($event)" [(ngModel)]="typedText"
-                            style="position:absolute; width: 200px;background-color:beige"><br>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div [style.display]="isShowTypeAheadDiv ? 'block' : 'none'"
-                            style="height: 150px; width: 200px;overflow: auto; border: grey; border-style: groove; padding: 5px;">
-                            <div *ngFor="let stock of lstTAStocks" (click)="onItemSelected(stock)">
-                                <label>{{stock.stockSymbol}}</label>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <form #uploadForm="ngForm" (ngSubmit)="onSubmit(uploadForm)" autocomplete="off">
+                <div class="form-group" id="StockSelectTypeAhead">
+                    <label for="ddlSelect">Select Stock:&nbsp;</label>
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="text" list="lstStocks" name="Searchstocks" id="Searchstocks"
+                                    (keyup)="onKeyUp($event)" (dblclick)="onClicktypeAhead($event)"
+                                    [(ngModel)]="typedText"
+                                    style="position:absolute; width: 200px;background-color:beige"><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div [style.display]="isShowTypeAheadDiv ? 'block' : 'none'"
+                                    style="height: 150px; width: 200px;overflow: auto; border: grey; border-style: groove; padding: 5px;">
+                                    <div *ngFor="let stock of lstTAStocks" (click)="onItemSelected(stock)">
+                                        <label>{{stock.stockSymbol}}</label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="form-group">
+                    Upload Type:&nbsp;
+                    <div class="form-check form-check-inline" *ngFor="let uploadType of uploadTypes">
+                        <label>
+                            <input type="radio" name="uploadtype" ngModel [value]="uploadType.value"
+                                [(ngModel)]="defaultRadio">
+                            {{uploadType.text}}
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <!-- <label for="fileFundamental">{{lblFileUpload}}</label> -->
+                    <input class="custom-file-input1" type="file" id="fileFundamental" #fileFundamental
+                        (change)="handleFileInput($event.target.files)"><br><br>
+                    <button type="submit" class="btn btn-dark btn-sm" style="float: left;"
+                        [disabled]="(!IsFileSelected && selectedStockID<0)"><i
+                            class="bi bi-cloud-upload-fill"></i>&nbsp;Upload</button>
+                    <!-- <app-help-tooltip style="float: left;" [ToolTipHTML]="toolTipStr"></app-help-tooltip> -->
+                </div>
+            </form>
         </div>
     </div>
-    <div>
-        Upload Type:&nbsp;
-        <div class="form-check form-check-inline" *ngFor="let uploadType of uploadTypes">
-            <label>
-                <input type="radio" name="uploadtype" ngModel [value]="uploadType.value" [(ngModel)]="defaultRadio">
-                {{uploadType.text}}
-            </label>
-        </div>
-    </div>
-    <div class="custom-file">
-        <label for="fileFundamental" class="custom-file-label">{{lblFileUpload}}</label>
-        <input type="file" id="fileFundamental" class="custom-file-input" #fileFundamental
-            (change)="handleFileInput($event.target.files)">
-        <br /> <br />
-        <div>
-            <button type="submit" class="btn btn-dark btn-sm" style="float: left;"
-                [disabled]="(!IsFileSelected && selectedStockID<0)"><i class="bi bi-cloud-upload-fill"></i>&nbsp;Upload</button>
-            <app-help-tooltip style="float: left;" [ToolTipHTML]="toolTipStr"></app-help-tooltip>
-        </div>
-    </div>
-</form>
+</div>

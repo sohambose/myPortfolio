@@ -1,0 +1,48 @@
+.navBarText {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 10px;
+}
+
+.li-Logo {
+    display: inline;
+    float: left;
+    vertical-align: top;
+}
+
+.li-MenuItems {
+    float: right;
+    display: inline;
+    vertical-align: bottom;
+}
+
+li a {
+    display: block;
+    padding: 10px;
+    color: black;
+}
+
+li a:hover {
+    background-color: transparent;
+    color: dodgerblue;
+    text-shadow: 100px;
+    text-decoration: none;
+}
+
+/*For fixed Top Nav*/
+
+.topNav {
+    width: 100%;
+    background-color: white;
+    overflow: hidden;
+    border-bottom: double;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+}

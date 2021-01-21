@@ -1,3 +1,22 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
-@import "../node_modules/ag-grid-community/dist/styles/ag-grid.css";
-@import "../node_modules/ag-grid-community/dist/styles/ag-theme-alpine.css";
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&family=Potta+One&display=swap');
+
+
+html, body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.body-text {
+    font-family: 'Graphik Web Regular', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 21px;
+}
+
+.gridHeader {
+    font-family: 'Graphik Web Medium', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.8px;
+}

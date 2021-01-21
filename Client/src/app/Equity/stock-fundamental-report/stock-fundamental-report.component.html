@@ -10,7 +10,8 @@
                         &nbsp;
                     </td>
                     <td style="text-align: right">
-                        <button type="button" (click)="closeComponent()"><b>x</b></button>
+                        <button type="button" class="btn btn-dark btn-sm" (click)="closeComponent()"><b><i
+                                    class="bi bi-x-circle-fill"></i></b></button>
                     </td>
                 </tr>
                 <tr id="trStockInfo">
@@ -34,7 +35,7 @@
                     <p><small><b>Quarterly Performance Snapshot:</b></small><br></p>
                 </div>
             </div>
-            <div id="divQrtrlyGraph1stRow" class="row">               
+            <div id="divQrtrlyGraph1stRow" class="row">
                 <div class="col-sm-4">
                     <canvas #QSalesChartCanvas>{{ chartVar }}</canvas>
                 </div>

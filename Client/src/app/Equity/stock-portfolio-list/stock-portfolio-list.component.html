@@ -4,7 +4,7 @@
                 class="bi bi-arrow-left-right"></i>&nbsp;Compare</button><br /><br>
     </div>
     <table class="table table-bordered table-sm">
-        <thead>
+        <thead class="gridHeader">
             <tr>
                 <th scope="col" *ngFor="let column of gridColumns">
                     <label style="cursor: pointer;" onmouseover="this.style.textDecoration='underline';"
@@ -23,7 +23,7 @@
                 <th>&nbsp;</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="body-text">
             <tr *ngFor="let stock of stocks">
                 <td scope="row"><input type="checkbox" (click)="onSelectRow(stock.stockID,$event)"></td>
                 <td scope="row">{{stock.stockSymbol}}</td>
@@ -31,10 +31,10 @@
                 <td scope="row">{{stock.industry}}</td>
                 <td scope="row">{{stock.quantity}}</td>
                 <td scope="row">
-                    <span><button type="button" class="btn btn-dark btn-sm" (click)="onViewReport(stock.stockID)">View
-                            Details</button>&nbsp;&nbsp;<button type="button" class="btn btn-dark btn-sm"
-                            (click)="onEdit(stock.stockID)">Edit</button>&nbsp;&nbsp;<button type="button"
-                            class="btn btn-dark btn-sm" (click)="onDelete(stock.stockID)">Delete</button>
+                    <span><button type="button" class="btn btn-dark btn-sm" (click)="onViewReport(stock.stockID)"><i
+                                class="bi bi-zoom-in"></i></button>&nbsp;&nbsp;<button type="button"
+                            class="btn btn-dark btn-sm" (click)="onEdit(stock.stockID)"><i class="bi bi-pencil-square"></i></button>&nbsp;&nbsp;<button
+                            type="button" class="btn btn-dark btn-sm" (click)="onDelete(stock.stockID)"><i class="bi bi-trash-fill"></i></button>
                     </span>
                 </td>
             </tr>
