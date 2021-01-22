@@ -52,7 +52,7 @@ export class StockPortfolioListComponent implements OnInit {
 
   arrPageNos: number[] = [];
   totalItems: number;
-  ItemsPerPage: number = 10;
+  ItemsPerPage: number = 5;
 
 
   arrselectedStockIDs: string[] = [];
@@ -84,8 +84,8 @@ export class StockPortfolioListComponent implements OnInit {
     this.Paginate(1);
   }
 
-  Paginate(pageNo, labelElement = null) {
-    console.log(labelElement);
+  Paginate(pageNo, event = null) {
+    //event.srcElement.className = 'active';    
     var minIndex: number = (this.ItemsPerPage * pageNo) - this.ItemsPerPage;
     var maxIndex: number = minIndex + this.ItemsPerPage - 1;
     this.stockService.filterArrayForPagination(minIndex, maxIndex);
@@ -94,7 +94,7 @@ export class StockPortfolioListComponent implements OnInit {
   onViewReport(stockID) {
     console.log(stockID);
     this.selectedStockID = stockID;
-    this.router.navigate(['stock-fundamentals/' + this.selectedStockID], { relativeTo: this.activatedRoute });
+    this.router.navigate(['stock-fundamentals/' + this.selectedStockID]);
   }
 
   onEdit(stockID) {
@@ -143,7 +143,7 @@ export class StockPortfolioListComponent implements OnInit {
     console.log(this.arrselectedStockIDs);
   }
 
-  onCompare() {    
+  onCompare() {
     this.router.navigate(['compare-stocks/' + this.arrselectedStockIDs.toString()]);
     /* this.stockService.CompareStocks(this.arrselectedStockIDs.toString()).subscribe(res => {
       console.log(res);

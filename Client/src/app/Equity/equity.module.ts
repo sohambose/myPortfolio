@@ -15,10 +15,10 @@ const equityRoutes: Routes = [
     {
         path: 'portfolio', component: StockLandingComponent, children: [
             { path: 'edit', component: StockEntryComponent },
-            { path: 'edit/:stockID', component: StockEntryComponent },
-            { path: 'stock-fundamentals/:stockID', component: StockFundamentalReportComponent }
+            { path: 'edit/:stockID', component: StockEntryComponent }
         ]
     },
+    { path: 'stock-fundamentals/:stockID', component: StockFundamentalReportComponent },
     { path: 'excel-upload', component: ExcelUploadComponent },
     { path: 'compare-stocks/:stockIDList', component: StockComparisonReportComponent }
 ];

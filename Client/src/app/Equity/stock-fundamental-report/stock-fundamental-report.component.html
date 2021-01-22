@@ -10,19 +10,22 @@
                         &nbsp;
                     </td>
                     <td style="text-align: right">
-                        <button type="button" class="btn btn-dark btn-sm" (click)="closeComponent()"><b><i
-                                    class="bi bi-x-circle-fill"></i></b></button>
+                        <button type="button" class="btn btn-dark btn-sm" (click)="closeComponent()"><i
+                                class="bi bi-arrow-left-square-fill"></i>&nbsp;Back</button>
                     </td>
                 </tr>
                 <tr id="trStockInfo">
                     <td>
-                        <b>Symbol:&nbsp;&nbsp;</b> {{stockSymbol}}
+                        <label class="body-text-bold">Stock Symbol: &nbsp;&nbsp;</label><label
+                            class="body-text">{{stockSymbol}}</label>
                     </td>
                     <td>
-                        <b>Company:&nbsp;&nbsp;</b> {{stockCompanyName}}
+                        <label class="body-text-bold">Company: &nbsp;&nbsp;</label><label
+                            class="body-text">{{stockCompanyName}}</label>
                     </td>
                     <td>
-                        <b>Industry:&nbsp;&nbsp;</b> {{stockIndustry}}
+                        <label class="body-text-bold">Industry: &nbsp;&nbsp;</label><label
+                            class="body-text">{{stockIndustry}}</label>
                     </td>
                 </tr>
             </table>
@@ -237,11 +240,15 @@
 
     </div>
     <div class="row" id="divNodataFound">
-        <div class="col-sm-12" *ngIf="isNoYearlydataFound">
+        <div class="col-sm-12 body-text-error" *ngIf="isNoYearlydataFound">
             No Annual Data Found for Stock. Please feed data.
         </div>
-        <div class="col-sm-12" *ngIf="isNoQuarterlydataFound">
+        <div class="col-sm-12 body-text-error" *ngIf="isNoQuarterlydataFound">
             No Quarterly Data Found for Stock. Please feed data.
+        </div>
+        <div class="col-sm-12 body-text-error" *ngIf="isNoQuarterlydataFound">
+            <button type="button" title="Upload Data for this Stock" class="btn btn-dark btn-sm"
+                (click)="onClickFeedData()"><i class="bi bi-cloud-arrow-up-fill"></i>&nbsp;Upload Data</button>
         </div>
     </div>
 </div>

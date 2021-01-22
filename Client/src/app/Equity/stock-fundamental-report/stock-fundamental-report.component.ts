@@ -82,6 +82,10 @@ export class StockFundamentalReportComponent implements OnInit {
     this.router.navigate(['/portfolio']);
   }
 
+  onClickFeedData() {
+    this.router.navigate(['/excel-upload']);
+  }
+
   loadStockDetails() {
     this.stockService.getStockByID(this.selectedStockID).subscribe(res => {
       this.stock = res;

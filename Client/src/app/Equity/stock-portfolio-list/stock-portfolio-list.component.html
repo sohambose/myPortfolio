@@ -3,10 +3,10 @@
         <button type="button" class="btn btn-info btn-sm" (click)="onCompare()"><i
                 class="bi bi-arrow-left-right"></i>&nbsp;Compare</button><br /><br>
     </div>
-    <table class="table table-bordered table-sm">
-        <thead class="gridHeader">
+    <table class="table-main">
+        <thead>
             <tr>
-                <th scope="col" *ngFor="let column of gridColumns">
+                <th class="table-header" scope="col" *ngFor="let column of gridColumns">
                     <label style="cursor: pointer;" onmouseover="this.style.textDecoration='underline';"
                         onmouseout="this.style.textDecoration='none';"
                         (click)="sortColumn(column)">{{column.displayName}}</label>
@@ -25,16 +25,22 @@
         </thead>
         <tbody class="body-text">
             <tr *ngFor="let stock of stocks">
-                <td scope="row"><input type="checkbox" (click)="onSelectRow(stock.stockID,$event)"></td>
-                <td scope="row">{{stock.stockSymbol}}</td>
-                <td scope="row">{{stock.companyName}}</td>
-                <td scope="row">{{stock.industry}}</td>
-                <td scope="row">{{stock.quantity}}</td>
-                <td scope="row">
-                    <span><button type="button" title="View Fundamental Details" class="btn btn-dark btn-sm" (click)="onViewReport(stock.stockID)"><i
-                                class="bi bi-zoom-in"></i></button>&nbsp;&nbsp;<button type="button" title="Edit Stock Details" 
-                            class="btn btn-dark btn-sm" (click)="onEdit(stock.stockID)"><i class="bi bi-pencil-square"></i></button>&nbsp;&nbsp;<button
-                            type="button" class="btn btn-dark btn-sm" title="Delete Stock" (click)="onDelete(stock.stockID)"><i class="bi bi-trash-fill"></i></button>
+                <td class="table-cells" scope="row"><input type="checkbox" (click)="onSelectRow(stock.stockID,$event)">
+                </td>
+                <td class="table-cells" scope="row">{{stock.stockSymbol}}</td>
+                <td class="table-cells" scope="row">{{stock.companyName}}</td>
+                <td class="table-cells" scope="row">{{stock.industry}}</td>
+                <td class="table-cells" scope="row">{{stock.quantity}}</td>
+                <td class="table-cells" scope="row">
+                    <span><button type="button" title="View Fundamental Details" class="btn btn-dark btn-sm"
+                            (click)="onViewReport(stock.stockID)"><i
+                                class="bi bi-zoom-in"></i></button>&nbsp;&nbsp;<button type="button"
+                            class="btn btn-dark btn-sm" title="Upload Data For Stock"><i
+                                class="bi bi-cloud-arrow-up-fill"></i></button>&nbsp;&nbsp;<button type="button"
+                            title="Edit Stock Details" class="btn btn-dark btn-sm" (click)="onEdit(stock.stockID)"><i
+                                class="bi bi-pencil-square"></i></button>&nbsp;&nbsp;<button type="button"
+                            class="btn btn-dark btn-sm" title="Delete Stock" (click)="onDelete(stock.stockID)"><i
+                                class="bi bi-trash-fill"></i></button>
                     </span>
                 </td>
             </tr>
@@ -43,11 +49,14 @@
     <table>
         <tr>
             <td colspan="5">
-                <table class="table-sm">
+                <table>
                     <tr>
                         <td *ngFor="let pageNo of arrPageNos">
-                            <label style="cursor: pointer; text-decoration: underline; "
-                                (click)="Paginate(pageNo,$event.target)">{{pageNo}} </label>
+                            <button class="btn btn-xs" (click)="Paginate(pageNo,$event);">{{pageNo}}</button>
+                            <!-- <div class="table-pagination" *ngFor="let pageNo of arrPageNos">
+                                <a href="#" onclick="return false" id=pageNo
+                                    (click)="Paginate(pageNo,$event);">{{pageNo}}</a>
+                            </div> -->
                         </td>
                     </tr>
                 </table>

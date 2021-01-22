@@ -1,8 +1,6 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&family=Potta+One&display=swap');
-
-
 html, body {
     font-family: 'Roboto', sans-serif;
 }
@@ -14,9 +12,59 @@ html, body {
     line-height: 21px;
 }
 
+.body-text-bold {
+    font-family: 'Graphik Web Regular', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 21px;
+}
+
+.body-text-error {
+    font-family: 'Graphik Web Regular', sans-serif;
+    color: red;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 21px;
+}
+
 .gridHeader {
     font-family: 'Graphik Web Medium', Helvetica, Arial, sans-serif;
     font-size: 14px;
     font-weight: 400;
     line-height: 16.8px;
 }
+
+.table-main {
+    border: 1px solid #ddd;
+}
+
+.table-header {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #e1efff;
+    color: rgb(0, 120, 255);
+    border: 1px solid #ddd;
+    padding: 8px;
+    font-family: 'Graphik Web Medium', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 16.8px;
+}
+
+.table-cells {
+    border: 1px solid #ddd;
+    padding: 2px;
+}
+
+.table-pagination {
+    color: black;
+    float: left;
+    padding: 5px 5px;
+    text-decoration: none;
+}
+
+/* .table-pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+} */
