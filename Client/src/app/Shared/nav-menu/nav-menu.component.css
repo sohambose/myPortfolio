@@ -35,9 +35,7 @@ li a:hover {
     text-decoration: none;
 }
 
-/*For fixed Top Nav*/
-
-.topNav {
+.topNavDiv {
     width: 100%;
     background-color: white;
     overflow: hidden;
@@ -46,3 +44,21 @@ li a:hover {
     top: 0;
     z-index: 10;
 }
+
+.burger-icon {
+    float: right;
+    display: inline;
+    vertical-align: bottom;
+    display: none;
+}
+
+/* @media screen and (max-width: 1060px) {
+    .li-MenuItems {
+        display: none;
+    }
+    .burger-icon {
+        float: right;
+        display: block;
+    }
+}
+ */

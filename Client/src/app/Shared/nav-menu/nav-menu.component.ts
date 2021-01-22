@@ -8,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 export class NavMenuComponent implements OnInit {
 
   constructor() { }
-  productName='My Portfolio Manager';
+  productName = 'My Portfolio Manager';
 
   ngOnInit(): void {
   }
+
+  onClickMenuItem(){
+    alert("hello mobile user");
+  }
+
 
 }

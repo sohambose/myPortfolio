@@ -31,10 +31,10 @@
                 <td scope="row">{{stock.industry}}</td>
                 <td scope="row">{{stock.quantity}}</td>
                 <td scope="row">
-                    <span><button type="button" class="btn btn-dark btn-sm" (click)="onViewReport(stock.stockID)"><i
-                                class="bi bi-zoom-in"></i></button>&nbsp;&nbsp;<button type="button"
+                    <span><button type="button" title="View Fundamental Details" class="btn btn-dark btn-sm" (click)="onViewReport(stock.stockID)"><i
+                                class="bi bi-zoom-in"></i></button>&nbsp;&nbsp;<button type="button" title="Edit Stock Details" 
                             class="btn btn-dark btn-sm" (click)="onEdit(stock.stockID)"><i class="bi bi-pencil-square"></i></button>&nbsp;&nbsp;<button
-                            type="button" class="btn btn-dark btn-sm" (click)="onDelete(stock.stockID)"><i class="bi bi-trash-fill"></i></button>
+                            type="button" class="btn btn-dark btn-sm" title="Delete Stock" (click)="onDelete(stock.stockID)"><i class="bi bi-trash-fill"></i></button>
                     </span>
                 </td>
             </tr>

@@ -21,19 +21,22 @@
     <a routerLink="/home" routerLinkActive="active">Hedge Portfolio</a> 
 </nav> -->
 
-<div class="navBarText topNav">
+<div class="topNavDiv" id="divNavDiv">
     <ul>
         <li class="li-Logo"><a href="#"><img style="widows: 200px;height:50px;" src="assets/images/brand-logo3.png"></a>
         </li>
-        <li class="li-MenuItems"><a href="javascript:void(0);" class="burger-icon">
+        <li class="burger-icon"><a href="javascript:void(0);" (click)="onClickMenuItem()">
                 <i class="fa fa-bars"></i>
             </a></li>
+            <br>
         <li class="li-MenuItems"><button type="button" class="btn btn-info"><i
                     class="bi bi-shield-lock-fill"></i>&nbsp;Login/Signup</button></li>
-        <li class="li-MenuItems"><a routerLink="/home" routerLinkActive="">Hedge Portfolio</a></li>
-        <li class="li-MenuItems"><a routerLink="/home" routerLinkActive="">Debt Portfolio</a></li>
-        <li class="li-MenuItems"><a routerLink="/excel-upload" routerLinkActive="active">Import Data</a></li>
-        <li class="li-MenuItems"><a routerLink="/portfolio" routerLinkActive="active">Equity Portfolio</a></li>
-        <li class="li-MenuItems"><a routerLink="/home" routerLinkActive="active">Home</a></li>
+        <li class="li-MenuItems"><a class="navBarText" routerLink="/home" routerLinkActive="">Hedge Portfolio</a></li>
+        <li class="li-MenuItems"><a class="navBarText" routerLink="/home" routerLinkActive="">Debt Portfolio</a></li>
+        <li class="li-MenuItems"><a class="navBarText" routerLink="/excel-upload" routerLinkActive="active">Import
+                Data</a></li>
+        <li class="li-MenuItems"><a class="navBarText" routerLink="/portfolio" routerLinkActive="active">Equity
+                Portfolio</a></li>
+        <li class="li-MenuItems"><a class="navBarText" routerLink="/home" routerLinkActive="active">Home</a></li>
     </ul>
 </div>
