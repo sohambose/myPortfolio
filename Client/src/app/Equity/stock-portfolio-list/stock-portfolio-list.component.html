@@ -1,5 +1,10 @@
 <div class="container">
     <div>
+        <button type="button" class="btn btn-dark btn-sm" (click)="onAddNewStock()">
+            <i class="bi bi-cloud-plus"></i>&nbsp;Add Stock to
+            Portfolio</button><br>
+    </div>
+    <div>
         <button type="button" class="btn btn-info btn-sm" (click)="onCompare()"><i
                 class="bi bi-arrow-left-right"></i>&nbsp;Compare</button><br /><br>
     </div>
@@ -35,7 +40,8 @@
                     <span><button type="button" title="View Fundamental Details" class="btn btn-dark btn-sm"
                             (click)="onViewReport(stock.stockID)"><i
                                 class="bi bi-zoom-in"></i></button>&nbsp;&nbsp;<button type="button"
-                            class="btn btn-dark btn-sm" title="Upload Data For Stock"><i
+                            class="btn btn-dark btn-sm" title="Upload Data For Stock"
+                            (click)="onUploadData(stock.stockID, stock.stockSymbol)"><i
                                 class="bi bi-cloud-arrow-up-fill"></i></button>&nbsp;&nbsp;<button type="button"
                             title="Edit Stock Details" class="btn btn-dark btn-sm" (click)="onEdit(stock.stockID)"><i
                                 class="bi bi-pencil-square"></i></button>&nbsp;&nbsp;<button type="button"
@@ -63,4 +69,20 @@
             </td>
         </tr>
     </table>
+</div>
+
+
+<!-- ---------------------------------Modals---------------------------------------------- -->
+<div id="uploadModal" class="modal-component" *ngIf="isShowUploadModal">
+    <div style="background-color: #fefefe;padding: 20px; border: 1px solid #888;width: 80%;margin: auto;">
+        <label class="close-modal" (click)="closeModal()">&times;</label>
+        <app-excel-upload [StockID]="selectedStockID" [StockSymbol]="selectedStockSymbol"></app-excel-upload>
+    </div>
+</div>
+
+
+<div id="stockAddEditModal" class="modal-component" *ngIf="isShowStockEditModal">
+    <div style="background-color: #fefefe;padding: 20px; border: 1px solid #888;width: 80%;margin: auto;">
+        <app-stock-entry [stockID]="selectedStockID" (onCloseComponent)="closeStockEntry()"></app-stock-entry>
+    </div>
 </div>

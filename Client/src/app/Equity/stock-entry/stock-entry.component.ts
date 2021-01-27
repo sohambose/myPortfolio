@@ -1,6 +1,6 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { StockService } from '../EquityServices/Stock.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -12,6 +12,10 @@ export class StockEntryComponent implements OnInit {
   stock: any = {};
   @ViewChild('stockForm', { static: true }) stockForm: NgForm;
 
+  @Output('onCloseComponent') CloseComponent = new EventEmitter();
+
+  @Input('stockID') InputStockID;
+
   selectedStockID: any = -1;
   isAddNewMode: boolean;
 
@@ -22,7 +26,7 @@ export class StockEntryComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(p => {
       this.selectedStockID = p['stockID'];
-      if (this.selectedStockID > 0) {
+      if (this.selectedStockID > 0 || this.InputStockID > 0) {
         this.isAddNewMode = false;
         this.loadStockDetails();
       }
@@ -31,6 +35,11 @@ export class StockEntryComponent implements OnInit {
         this.isAddNewMode = true;
       }
     })
+
+    if (this.InputStockID > 0) {     
+      this.selectedStockID = this.InputStockID;
+      this.loadStockDetails();
+    }
   }
 
   loadStockDetails() {
@@ -57,7 +66,8 @@ export class StockEntryComponent implements OnInit {
       this.isAddNewMode = false;
       this.selectedStockID = res;
       alert('Data saved Successfully!');
-      this.router.navigate(['/portfolio']);
+      //this.router.navigate(['/portfolio']);
+      this.CloseComponent.emit(true);
     },
       err => {
         console.log(err);
@@ -65,7 +75,8 @@ export class StockEntryComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/portfolio']);
+    //this.router.navigate(['/portfolio']);
+    this.CloseComponent.emit(true);
   }
 
   onDelete() {

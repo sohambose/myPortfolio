@@ -34,19 +34,27 @@ export class ExcelUploadComponent implements OnInit {
   @ViewChild('uploadForm', { static: true }) uploadForm: NgForm;
   @ViewChild('fileFundamental', { static: true }) fileFundamental: ElementRef;
 
+  @Input('StockID') InputstockID;
+  @Input('StockSymbol') InputstockSymbol;
+
   constructor(private uploadService: UploadService, private stockService: StockService) { }
 
   ngOnInit(): void {
     this.stockService.getAllStocks().subscribe(res => {
       this.lstStocks = res;
       this.lstTAStocks = this.lstStocks;
-      this.selectedStockID = -1;
-      this.typedText = '';
+      //this.selectedStockID = -1;
+      //this.typedText = '';
     });
 
     this.stockService.arrStocksModified.subscribe(res => {
       this.lstTAStocks = res;
-    })
+    });
+
+    if (this.InputstockID > 0) {
+      this.selectedStockID = this.InputstockID;
+      this.typedText = this.InputstockSymbol;
+    }
   }
 
   onStockSelectionChange() {

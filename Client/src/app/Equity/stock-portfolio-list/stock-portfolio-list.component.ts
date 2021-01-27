@@ -15,7 +15,11 @@ export class StockPortfolioListComponent implements OnInit {
   isAsc: boolean = true;
   lastSortedColumn: string;
 
+  isShowUploadModal: boolean = false;
+  isShowStockEditModal: boolean = false;
+
   selectedStockID: any;
+  selectedStockSymbol: any;
 
   gridColumns: any[] = [
     {
@@ -98,9 +102,9 @@ export class StockPortfolioListComponent implements OnInit {
   }
 
   onEdit(stockID) {
-    console.log(stockID);
     this.selectedStockID = stockID;
-    this.router.navigate(['edit/' + this.selectedStockID], { relativeTo: this.activatedRoute });
+    this.isShowStockEditModal = true;
+    //this.router.navigate(['edit/' + this.selectedStockID], { relativeTo: this.activatedRoute });
   }
 
   onDelete(stockID) {
@@ -153,4 +157,24 @@ export class StockPortfolioListComponent implements OnInit {
   onSearchKeyUp(event, field: string) {
     this.stockService.searchArraybyAnyField(event.target.value, field);
   }
+
+  onUploadData(stockID: any, stockSymbol: any) {
+    this.selectedStockID = stockID;
+    this.selectedStockSymbol = stockSymbol;
+    this.isShowUploadModal = true;
+  }
+
+  closeModal() {
+    this.isShowUploadModal = false;
+  }
+
+  closeStockEntry() {
+    this.isShowStockEditModal = false;
+  }
+
+  onAddNewStock() {
+    //this.router.navigate(['edit'], { relativeTo: this.activatedRoute });
+    this.isShowStockEditModal = true;
+  }
+
 }
