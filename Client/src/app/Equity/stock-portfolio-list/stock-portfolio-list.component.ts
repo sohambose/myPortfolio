@@ -18,8 +18,12 @@ export class StockPortfolioListComponent implements OnInit {
   isShowUploadModal: boolean = false;
   isShowStockEditModal: boolean = false;
 
+  isShowCompareBtn: boolean = false;
+
   selectedStockID: any;
   selectedStockSymbol: any;
+
+
 
   gridColumns: any[] = [
     {
@@ -135,7 +139,6 @@ export class StockPortfolioListComponent implements OnInit {
   }
 
   onSelectRow(stockID: string, event: any) {
-    console.log(event.target.checked);
     if (event.target.checked == false) {
       var selectedStockIndex = this.arrselectedStockIDs.indexOf(stockID);
       this.arrselectedStockIDs.splice(selectedStockIndex, 1);
@@ -143,6 +146,12 @@ export class StockPortfolioListComponent implements OnInit {
     if (event.target.checked &&
       !this.arrselectedStockIDs.includes(stockID)) {
       this.arrselectedStockIDs.push(stockID);
+    }
+    if (this.arrselectedStockIDs.length > 1) {
+      this.isShowCompareBtn = true;
+    }
+    else {
+      this.isShowCompareBtn = false;
     }
     console.log(this.arrselectedStockIDs);
   }
