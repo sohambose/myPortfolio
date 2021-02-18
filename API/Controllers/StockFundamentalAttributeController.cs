@@ -49,7 +49,7 @@ namespace API.Controllers
             lstStockFADB = await _context.StockFundamentalAttributes.Include("stock").ToListAsync<StockFundamentalAttributes>();
 
             List<StockComparisonScores> lstScoreSave = new List<StockComparisonScores>();
-            lstScoreSave = StockFundamentalBLL.GetInstance().GetStockComparisonFromSFA(lstStockFADB);
+            lstScoreSave = StockFundamentalBLL.GetInstance().GetStockComparisonFromSFA(lstStockFADB,SelectedStocks);
 
             _context.StockComparisonScores.AddRange(lstScoreSave);
             _context.SaveChanges();

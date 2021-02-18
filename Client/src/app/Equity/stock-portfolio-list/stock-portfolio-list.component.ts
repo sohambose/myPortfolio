@@ -171,10 +171,12 @@ export class StockPortfolioListComponent implements OnInit {
     this.selectedStockID = stockID;
     this.selectedStockSymbol = stockSymbol;
     this.isShowUploadModal = true;
+
   }
 
   closeModal() {
     this.isShowUploadModal = false;
+    this.Paginate(1);
   }
 
   closeStockEntry() {

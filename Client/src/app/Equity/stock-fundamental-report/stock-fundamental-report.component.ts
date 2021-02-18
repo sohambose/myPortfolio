@@ -101,6 +101,7 @@ export class StockFundamentalReportComponent implements OnInit {
         this.isNoYearlydataFound = true;
       }
       else {
+        console.log('Yearly data Found');        
         this.isNoYearlydataFound = false;
         this.stockPL = res.filter(r => r.statement == 'PL');
         this.stockBalanceSheet = res.filter(r => r.statement == 'BALANCESHEET');

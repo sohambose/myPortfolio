@@ -14,6 +14,13 @@ namespace API.BLL
             return Instance;
         }
 
+        private string[] arrAscAttributes = { "ActualGrossProfit","RevenueTotal","CashFromOperatingActivity",
+        "CurrentAssets","EBTMargin","EPS", "EquityShareCapital", "FixedAssetsTurnover", "GrossProfitCrores","GrossProfitMargin",
+        "InterestCoverageRatio", "Inventory","InventoryTurnover","InventoryTurnoverRatio","NETProfit","NetProfitPercentage",
+        "PATMargin","ReceivableTurnoverRatio","Reserves","RevenueTotal","RevenueTotalCrores","ROA","ROCE","ROE","Sales",
+        "TotalAssetsTurnoverRatio","TotalShareholderEquity"};  //higher is better
+        private string[] arrDescAttributes = { "Borrowings" }; //lower is better
+
         public void SortFundamentalDataByStmtType(List<StockFundamentalAttributes> lstStockFADB, List<StockFundamentalAttributes> retlstStockFA)
         {
             //--Order by statement type
@@ -25,15 +32,24 @@ namespace API.BLL
             retlstStockFA.AddRange(lstStockFADB.FindAll(fa => fa.Statement.ToUpper().Equals("OPERATINGRATIO ")));
         }
 
-        public List<StockComparisonScores> GetStockComparisonFromSFA(List<StockFundamentalAttributes> lstStockFADB)
+        public List<StockComparisonScores> GetStockComparisonFromSFA(List<StockFundamentalAttributes> lstStockFADB, string SelectedStocks)
         {
+            List<string> lstStrStockIDs = SelectedStocks.Split(",").ToList();
+            List<int> lstStockIDs = lstStrStockIDs.ConvertAll(int.Parse);
+
+            lstStockFADB = lstStockFADB.FindAll(s => lstStockIDs.Contains(s.stockID));
+
+
             List<StockComparisonScores> lstScoreSave = new List<StockComparisonScores>();
             //---get all the heads----
             List<string> lstHeadsToCompare = lstStockFADB.Select(fa => fa.Head).Distinct().ToList();
             foreach (string headDesc in lstHeadsToCompare)
             {
                 List<StockFundamentalAttributes> lstFilteredStockFAs = new List<StockFundamentalAttributes>();
-                lstFilteredStockFAs = lstStockFADB.FindAll(sfa => sfa.Head.ToUpper().Equals(headDesc.ToUpper())).OrderBy(c => c.observationValue).ToList();
+                if (arrAscAttributes.Contains(headDesc))
+                    lstFilteredStockFAs = lstStockFADB.FindAll(sfa => sfa.Head.ToUpper().Equals(headDesc.ToUpper())).OrderBy(c => c.observationValue).ToList();
+                else
+                    lstFilteredStockFAs = lstStockFADB.FindAll(sfa => sfa.Head.ToUpper().Equals(headDesc.ToUpper())).OrderByDescending(c => c.observationValue).ToList();
                 List<StockComparisonScores> lstScore = (from sfa in lstFilteredStockFAs
                                                         select new StockComparisonScores
                                                         {
@@ -72,8 +88,8 @@ namespace API.BLL
 
         public List<StockComparisonDetailsDTO> GenerateDetailedComparison(List<StockComparisonScores> lstStockCompareDB, List<Stock> lstAllStocks)
         {
-            
-            List<StockComparisonDetailsDTO> retlstStockCompare = new List<StockComparisonDetailsDTO>();            
+
+            List<StockComparisonDetailsDTO> retlstStockCompare = new List<StockComparisonDetailsDTO>();
 
             IEnumerable<StockComparisonDetailsDTO> Ienum_StockCompare = from stockCompareObj in lstStockCompareDB
                                                                         join stockObj in lstAllStocks on stockCompareObj.stockID equals stockObj.stockID
